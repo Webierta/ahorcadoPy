@@ -12,7 +12,7 @@ Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Aho
 
 Copyleft 2018 - Jesús Cuerda - Todos los errores reservados.
 
-Web: `https://github.com/Webierta/ahorcadoPy <https://github.com/Webierta>`_
+Web: `https://github.com/Webierta/ahorcadoPy <https://github.com/Webierta/ahorcadoPy>`_
 
 Aplicación gratuita y sin publicidad. Colabora con un donativo vía PayPal.
 

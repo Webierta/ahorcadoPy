@@ -1,10 +1,11 @@
 Juego del Ahorcado (versión 0.1.1 - 2018)
+=========================================
 
 Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
 
 Copyleft 2018 - Jesús Cuerda - Todos los errores reservados.
 
-Web: https://github.com/Webierta
+Web: https://github.com/Webierta/ahorcadoPy
 
 Aplicación gratuita y sin publicidad. Colabora con un donativo vía PayPal.
 
@@ -16,6 +17,7 @@ CONTENIDO:
     3. Desarrollo
     4. Reconocimientos
     5. Licencia
+
 
 REQUISITOS DEL SISTEMA
 ======================
@@ -31,28 +33,37 @@ REQUISITOS DEL SISTEMA
 
     Alguno de ellos debería abrir una ventana de demostración de la interfaz gráfica de tkinter.
 
+
 EJECUCIÓN
 =========
-1. Comprueba que tu sistema cumple los requisitos necesarios para la correcta ejecución de la aplicación.
-2. Descarga el archivo comprimido zip con la última versión.
-3. Descomprime el archivo zip y copia la carpeta principal llamada 'ahorcado' a cualquier lugar de tu sistema.
-4. En muchos sistemas, puedes ejecutarlo desde el entorno gráfico haciendo doble clic en el archivo __init__.py. Si no funciona, comprueba las preferencias de tu administrador de archivos: por ejemplo, en Nautilus, en Preferencias --> Comportamiento, selecciona 'Ejecutar los archivos de texto ejecutables al abrirlos'. También puedes probar haciendo clic con el botón secundario del ratón y seleccionar "Ejecutar" o "Abrir" o bien "Abrir con..." y luego «Python(v3.x)».
-5. Para ejecutarlo desde consola (en Windows la abres con cmd), desplázate al directorio donde se encuentra la carpeta principal y ejecuta:
+1) Comprueba que tu sistema cumple los requisitos necesarios para la correcta ejecución de la aplicación.
+
+2) Descarga el archivo comprimido con la última versión, descomprime y copia la carpeta principal llamada 'ahorcado' a cualquier lugar de tu sistema.
+
+3) En muchos sistemas, puedes ejecutarlo desde el entorno gráfico haciendo doble clic en el archivo **__init__.py**. Si no funciona, comprueba las preferencias de tu administrador de archivos: por ejemplo, en Nautilus, en Preferencias --> Comportamiento, selecciona 'Ejecutar los archivos de texto ejecutables al abrirlos'. También puedes probar haciendo clic con el botón secundario del ratón y seleccionar "Ejecutar" o "Abrir" o bien "Abrir con..." y luego «Python(v3.x)».
+
+4) Para ejecutarlo desde consola (en Windows la abres con cmd), desplázate al directorio donde se encuentra la carpeta principal y ejecuta:
+
     - en linux: python3 __init__.py. También funciona con: ./__init__.py
     - en Windows, dependiendo de la versión y de la configuración: __init__.py o bien python __init__.py
+
 
 DESARROLLO
 ==========
 Aplicación con lenguaje de programación python 3 e interfaz gráfica tkinter.
 
-0.1.0   Noviembre 2018  Publicada primera versión
-0.1.1   Diciembre 2018  Archivo de configuración y efectos sonoros (linux)
+0.1.1
+  Diciembre 2018  Archivo de configuración y efectos sonoros (linux)
+
+0.1.0
+  Noviembre 2018  Publicada primera versión
+
 
 RECONOCIMIENTOS
 ===============
-    - Banco de imágenes y sonidos del Instituto de Tecnologías Educativas. Ministerio de Educación.
-    - Noun Project.
-    - Flaticon: Picol, Freepik, Tuts+, Icomoon, Daniel Bruce, Amit Jakhu.
+- Banco de imágenes y sonidos del Instituto de Tecnologías Educativas. Ministerio de Educación.
+- Noun Project.
+- Flaticon: Picol, Freepik, Tuts+, Icomoon, Daniel Bruce, Amit Jakhu.
 
 LICENCIA
 ========

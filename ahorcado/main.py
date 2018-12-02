@@ -1,5 +1,5 @@
 import sys
-import os  # ??
+from subprocess import call # import os
 import webbrowser
 import threading
 import tkinter as tk  # tkinter
@@ -229,19 +229,9 @@ class Game(Base):
 
     def sonidoEfecto(self, file):
         if datos.sonido == True:
-            if sys.platform.startswith('linux'):                
+            if sys.platform.startswith('linux'):
                 #os.system("aplay {}".format(file))
-                #os.system("mpg123 resources/media/sample.mp3")
-                #os.system("afplay resources/media/sample.mp3")
-                #import subprocess
-                from subprocess import call
-                #from subprocess import run
-                #subprocess.call(["ffplay", "-nodisp", "-autoexit", file])
-                #subprocess.call(["aplay", file])
                 call(["aplay", file])
-                #run("clear", shell=True)
- 
-                
 
     def letraPulsada(self, let, btn):
         fileSonidos = {

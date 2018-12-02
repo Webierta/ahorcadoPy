@@ -2,6 +2,12 @@
 El ahorcado
 ===========
 
+.. image:: https://raw.githubusercontent.com/Webierta/ahorcadoPy/master/resources/img/icon128.png   
+   :alt: El ahorcado
+
+
+https://raw.githubusercontent.com/Webierta/ahorcadoPy/master/resources/img/icon128.png
+
 Juego del Ahorcado (versión 0.1.1 - 2018)
 
 Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
@@ -28,6 +34,7 @@ Si aparece un mensaje de error, tkinter no está instalado. En los repositorios 
 Puedes comprobar si has instalado 'tkinter' correctamente ejecutando estos comandos:
 
 .. code-block:: bash
+
   python3 -m tkinter
    
   tkinter._test()
@@ -49,11 +56,11 @@ DESARROLLO
 
 Aplicación con lenguaje de programación python 3 e interfaz gráfica tkinter.
 
-0.1.0
-  Noviembre 2018  Publicada primera versión
-
 0.1.1
   Diciembre 2018  Archivo de configuración y efectos sonoros (linux)
+
+0.1.0
+  Noviembre 2018  Publicada primera versión
   
 RECONOCIMIENTOS
 ---------------

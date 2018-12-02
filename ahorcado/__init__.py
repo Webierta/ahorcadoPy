@@ -26,8 +26,8 @@ def main():
     root = tk.Tk()
     StartPage(root)
     
-import subprocess
-subprocess.run(["python", "__init__.py"], input=main(), stdout=subprocess.PIPE)
+#import subprocess
+#subprocess.run(["python", "__init__.py"], input=main(), stdout=subprocess.PIPE)
 
-#if __name__ == "__main__":
-#    main()
+if __name__ == "__main__":
+    main()

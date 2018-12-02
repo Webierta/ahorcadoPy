@@ -8,7 +8,7 @@ Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Aho
 
 Copyleft 2018 - Jesús Cuerda - Todos los errores reservados.
 
-`Web: https://github.com/Webierta <https://github.com/Webierta>`_
+Web: `https://github.com/Webierta/ahorcadoPy <https://github.com/Webierta>`_
 
 Aplicación gratuita y sin publicidad. Colabora con un donativo vía PayPal.
 
@@ -26,9 +26,11 @@ REQUISITOS DEL SISTEMA
 Si aparece un mensaje de error, tkinter no está instalado. En los repositorios de la mayoría de distribuciones linux lo encontrarás con el nombre python3-tk (o simplemente tk).
 
 Puedes comprobar si has instalado 'tkinter' correctamente ejecutando estos comandos:
+
 .. code-block:: bash
-   python3 -m tkinter
-   tkinter._test()
+  python3 -m tkinter
+   
+  tkinter._test()
 
 Alguno de ellos debería abrir una ventana de demostración de la interfaz gráfica de tkinter.
 
@@ -47,9 +49,12 @@ DESARROLLO
 
 Aplicación con lenguaje de programación python 3 e interfaz gráfica tkinter.
 
-0.1.0   Noviembre 2018  Publicada primera versión
-0.1.1   Diciembre 2018  Archivo de configuración y efectos sonoros (linux)
+0.1.0
+  Noviembre 2018  Publicada primera versión
 
+0.1.1
+  Diciembre 2018  Archivo de configuración y efectos sonoros (linux)
+  
 RECONOCIMIENTOS
 ---------------
 

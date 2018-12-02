@@ -1,0 +1,4 @@
+include ABOUT.rst
+include HELP.rst
+recursive-include resources/img *
+recursive-include resources/media *

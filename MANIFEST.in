@@ -1,4 +1,3 @@
-include ABOUT.rst
-include HELP.rst
-recursive-include resources/img *
-recursive-include resources/media *
+recursive-include ahorcado/resources/img *
+recursive-include ahorcado/resources/media *
+recursive-include ahorcado/resources/txt *

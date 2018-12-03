@@ -1,16 +1,22 @@
 import sys
-from subprocess import call # import os
+import os
+from subprocess import call
 import webbrowser
 import threading
-import tkinter as tk  # tkinter
-import tkinter.font as font
-from tkinter import ttk
-from tkinter import scrolledtext
-from tkinter import messagebox
-import juego  # mis modulos
-import datos
 
-datos = datos.Datos()
+try:
+    import tkinter as tk
+    import tkinter.font as font
+    from tkinter import ttk
+    from tkinter import scrolledtext
+    from tkinter import messagebox
+except ImportError:
+    print("Se requiere el modulo tkinter. Más información en about.txt")
+    sys.exit(1)
+
+import ahorcado.juego
+import ahorcado.datos
+datos = ahorcado.datos.Datos()
 
 #-------------------------------------------------------------------------
 #
@@ -66,9 +72,11 @@ class Base:
         self.master.bind_all("<Alt-q>", lambda event: quit())
 
         self.opcInfo.add_command(label="Ayuda",
-            command=lambda:self.info("../HELP.rst"))
+            command=lambda:self.info(os.path.join(os.path.dirname(__file__),
+            "resources/txt/HELP.rst")))
         self.opcInfo.add_command(label="Acerca de",
-            command=lambda:self.info("../ABOUT.rst"))
+            command=lambda:self.info(os.path.join(os.path.dirname(__file__),
+            "resources/txt/ABOUT.rst")))
 
     def on_closing(self):
         sys.exit()  #self.salir()
@@ -130,13 +138,15 @@ class StartPage(Base):
         super().__init__(master)
         self.master = master
 
-        imgTitulo = tk.PhotoImage(file="../resources/img/ahorcado.png")
+        imgTitulo = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
+            "resources/img/ahorcado.png"))
         canvas = tk.Canvas(self.master, width=530, height=48,
             background="#121", bd=0, highlightthickness=0)
         canvas.create_image(0, 0, anchor="nw", image=imgTitulo)
         canvas.pack(side=tk.TOP, expand=False, padx=30, pady=30)
 
-        imgIcon = tk.PhotoImage(file="../resources/img/icon128.png")
+        imgIcon = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
+            "resources/img/icon128.png"))
         canvasIcon = tk.Canvas(self.master, width=128, height=128,
             background="#121", bd=0, highlightthickness=0)
         canvasIcon.create_image(0, 0, anchor="nw", image=imgIcon)
@@ -150,7 +160,8 @@ class StartPage(Base):
         btnGame.pack(side=tk.TOP, fill=tk.BOTH, padx=30, pady=10, ipady=10)
         btnPunt.pack(side=tk.TOP, fill=tk.BOTH, padx=30, pady=0, ipady=10)
 
-        imgPaypal = tk.PhotoImage(file="../resources/img/donate.gif")
+        imgPaypal = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
+            "resources/img/donate.gif"))
         tk.Button(self.master, image=imgPaypal, cursor="hand1", bd=0,
             activebackground="#BDBDBD", command=self.paypal).pack(side=tk.BOTTOM,
             pady=10)
@@ -172,14 +183,15 @@ class Game(Base):
 
         super().__init__(master)
         self.master = master
-        self.ahorcado = juego.Juego()
+        self.ahorcado = ahorcado.juego.Juego()
 
         # Contenedor Pista + Horca
         contenedor = tk.Frame(self.master, background="#121")
         contenedor.pack(side=tk.TOP, anchor="n", expand=False, ipady=10)
 
         #Pista
-        filePista = tk.PhotoImage(file="../resources/img/pista.png")
+        filePista = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
+            "resources/img/pista.png"))
         canvasPista = tk.Canvas(contenedor, width=32, height=32,
             background="#121", bd=0, highlightthickness=0)
         canvasPista.create_image(0, 0, anchor="nw", image=filePista)
@@ -192,8 +204,9 @@ class Game(Base):
         self.canvasHorca.pack(side=tk.TOP, anchor="n", expand=False, padx=30)
         self.imgFile = []
         for i in range(1, 8):
-            fuente = "../resources/img/"+str(i)+".png"
-            self.imgFile.append(tk.PhotoImage(file=fuente))
+            fuente = "resources/img/"+str(i)+".png"
+            fileFuente=os.path.join(os.path.dirname(__file__), fuente)
+            self.imgFile.append(tk.PhotoImage(file=fileFuente))
         self.imgHorca = self.canvasHorca.create_image(
             0, 0, anchor="nw", image=self.imgFile[0])
 
@@ -230,15 +243,14 @@ class Game(Base):
     def sonidoEfecto(self, file):
         if datos.sonido == True:
             if sys.platform.startswith('linux'):
-                #os.system("aplay {}".format(file))
-                call(["aplay", file])
+                call(["aplay", file])  #os.system("aplay {}".format(file))
 
     def letraPulsada(self, let, btn):
         fileSonidos = {
-            "Error": "../resources/media/error.wav",
-            "Acierto": "../resources/media/acierto.wav",
-            "Gameover": "../resources/media/gameover.wav",
-            "Victoria": "../resources/media/victoria.wav"}
+            "Error": os.path.join(os.path.dirname(__file__), "resources/media/error.wav"),
+            "Acierto": os.path.join(os.path.dirname(__file__), "resources/media/acierto.wav"),
+            "Gameover": os.path.join(os.path.dirname(__file__), "resources/media/gameover.wav"),
+            "Victoria": os.path.join(os.path.dirname(__file__), "resources/media/victoria.wav")}
         victoria = False
         self.errores = 0
         btn.config(state = tk.DISABLED)
@@ -298,7 +310,8 @@ class Marcador(Base):
         super().__init__(master)
         self.master = master
 
-        imgM = tk.PhotoImage(file="../resources/img/marcador.png")
+        imgM = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
+            "resources/img/marcador.png"))
         canvasM = tk.Canvas(self.master, width=435, height=48,
             background="#121", bd=0, highlightthickness=0)
         canvasM.create_image(0, 0, anchor="nw", image=imgM)
@@ -307,7 +320,8 @@ class Marcador(Base):
         frameTrofeos = tk.Frame(self.master, bg="#121")
 
         frameV = tk.Frame(frameTrofeos, bg="#121")
-        trofeo = tk.PhotoImage(file="../resources/img/triunfos.png")
+        trofeo = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
+            "resources/img/triunfos.png"))
         canvasTrofeo = tk.Canvas(frameV, width=64, height=64,
             background="#121", bd=0, highlightthickness=0)
         canvasTrofeo.create_image(0, 0, anchor="nw", image=trofeo)
@@ -320,7 +334,8 @@ class Marcador(Base):
         frameV.pack(side=tk.LEFT)
 
         frameD = tk.Frame(frameTrofeos, bg="#121")
-        soga = tk.PhotoImage(file="../resources/img/derrotas.png")
+        soga = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
+            "resources/img/derrotas.png"))
         canvasSoga = tk.Canvas(frameD, width=64, height=64,
             background="#121", bd=0, highlightthickness=0)
         canvasSoga.create_image(0, 0, anchor="nw", image=soga)
@@ -349,3 +364,10 @@ class Marcador(Base):
         datos.reset_marcador()
         self.tanV.set(datos.victorias)
         self.tanD.set(datos.derrotas)
+
+def main():
+    root = tk.Tk()
+    StartPage(root)
+
+if __name__ == "__main__":
+    main()

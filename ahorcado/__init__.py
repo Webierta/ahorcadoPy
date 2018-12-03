@@ -9,25 +9,28 @@
 #
 #-------------------------------------------------------------------------
 
-import sys
-try:
-    import tkinter as tk
-except ImportError:
-    print("Se requiere el modulo tkinter. Más información en about.txt")
-    sys.exit(1)
+#from ahorcado import *
+#__all__ = ["main", "juego", "datos"]
 
-from main import StartPage
-from main import *
-from juego import *
-from datos import *
-__all__ = ["Base", "StartPage", "Game", "Marcador", "Juego", "Datos"]
 
-def main():
-    root = tk.Tk()
-    StartPage(root)
-    
-#import subprocess
-#subprocess.run(["python", "__init__.py"], input=main(), stdout=subprocess.PIPE)
 
-if __name__ == "__main__":
-    main()
+# import sys
+# try:
+#     import tkinter as tk
+# except ImportError:
+#     print("Se requiere el modulo tkinter. Más información en about.txt")
+#     sys.exit(1)
+
+#from ahorcado import *
+# from main import StartPage
+# from main import *
+# from juego import *
+# from datos import *
+#__all__ = ["Base", "StartPage", "Game", "Marcador", "Juego", "Datos"]
+#__all__ = ["main", "juego", "datos"]
+# def main():
+#     root = tk.Tk()
+#     StartPage(root)
+
+# if __name__ == "__main__":
+#     main()

@@ -1,44 +1,31 @@
-El ahorcado
-===========
-
-.. image:: https://raw.githubusercontent.com/Webierta/ahorcadoPy/master/resources/img/icon128.png
-   :alt: El ahorcado
-
-
 Juego del Ahorcado (versión 0.1.2 - 2018)
+=========================================
 
 Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
 
 Copyleft 2018 - Jesús Cuerda - Todos los errores reservados.
 
-Web: `https://github.com/Webierta/ahorcadoPy <https://github.com/Webierta/ahorcadoPy>`_
+Web: https://github.com/Webierta/ahorcadoPy
 
 Aplicación gratuita y sin publicidad. Colabora con un donativo vía PayPal.
 
 Software libre de código abierto sujeto a la GNU General Public License v.3, distribuido con la esperanza de que sea entretenido, pero SIN NINGUNA GARANTÍA. Todos los errores reservados.
 
-----
-
 
 REQUISITOS DEL SISTEMA
 ----------------------
 
-- **Python versión 3.x**. Requiere que el sistema tenga instalado Python versión 3.x, disponible en python.org para distintas plataformas: Windows, Linux/UNIX, Mac OS X y otras. Python se encuentra instalado por defecto en la mayoría de sistemas GNU/Linux si bien en muchas ocasiones se trata de una versión 2.x. La versión 3.x suele estar incluida en los repositorios de casi todas las distribuciones linux, por lo que su instalación es sencilla. La aplicación sólo utiliza componentes de la librería estándar de Python.
+- Python versión 3.x. Requiere que el sistema tenga instalado Python versión 3.x, disponible en python.org para distintas plataformas: Windows, Linux/UNIX, Mac OS X y otras. Python se encuentra instalado por defecto en la mayoría de sistemas GNU/Linux si bien en muchas ocasiones se trata de una versión 2.x. La versión 3.x suele estar incluida en los repositorios de casi todas las distribuciones linux, por lo que su instalación es sencilla. La aplicación sólo utiliza componentes de la librería estándar de Python.
 
-- **El paquete 'tkinter' para Python**. Actualmente se incluye con todas las distribuciones estándar de Python3.x. Este paquete ofrece la interfaz estándar de Python para el conjunto de herramientas gráficas. En Windows ya se instaló cuando instalaste Python 3. Aunque tkinter es parte de la biblioteca estándar de Python, muchas distribuciones linux lo empaquetan por separado del paquete principal de Python. Para comprobar si está instalado en tu sistema, desde consola: $ python3, y luego >>>import tkinter
+- El paquete 'tkinter' para Python. Actualmente se incluye con todas las distribuciones estándar de Python3.x. Este paquete ofrece la interfaz estándar de Python para el conjunto de herramientas gráficas. En Windows ya se instaló cuando instalaste Python 3. Aunque tkinter es parte de la biblioteca estándar de Python, muchas distribuciones linux lo empaquetan por separado del paquete principal de Python. Para comprobar si está instalado en tu sistema, desde consola: $ python3, y luego >>>import tkinter
 
   Si aparece un mensaje de error, tkinter no está instalado. En los repositorios de la mayoría de distribuciones linux lo encontrarás con el nombre python3-tk (o simplemente tk).
 
   Puedes comprobar si has instalado 'tkinter' correctamente ejecutando estos comandos (Alguno de ellos debería abrir una ventana de demostración de la interfaz gráfica de tkinter):
 
-  .. code-block:: bash
+    python3 -m tkinter
 
-     python3 -m tkinter
-    
-    
-  .. code-block:: bash
- 
-     tkinter._test()
+    tkinter._test()
 
 
 INSTALACIÓN / EJECUCIÓN
@@ -49,22 +36,13 @@ Puedes instalarlo o simplemente ejecutar sin instalar:
 INSTALAR
 ::::::::
 
-Si te sientes cómodo con pip, descarga el archivo comprimido y ejecuta preferiblemente en un entorno virtual (para saber cómo crear y usar un entorno virtual puedes visitar `Entornos virtuales con Python <https://python-para-impacientes.blogspot.com/2015/02/entornos-virtuales-con-python.html>`_):
-
-.. code-block:: bash
+Si te sientes cómodo con pip, descarga el archivo comprimido y ejecuta preferiblemente en un entorno virtual:
 
   $ pip install ahorcado-0.1.1.tar.gz
-
 o
-
-.. code-block:: bash
-
   $ pip3 install ahorcado-0.1.1.tar.gz
 
-
 Y después arranca la aplicación con:
-
-.. code-block:: bash
 
   $ ahorcado
 
@@ -74,14 +52,8 @@ EJECUCIÓN
 
 Para ejecutar el juego sin instalarlo, descarga el repositorio comprimido (zip), descomprime y desde consola (en Windows la abres con cmd) desplázate y entra en el directorio principal (ahorcadoPy) y escribe:
 
-.. code-block:: bash
-
   $ python -m ahorcado.main
-
 o
-
-.. code-block:: bash
-
   $ python3 -m ahorcado.main
 
 

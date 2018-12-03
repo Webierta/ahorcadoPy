@@ -8,18 +8,24 @@ setup(
     version="0.1.1",
     description="Aplicación que revive el clásico juego de lápiz y papel 'El Ahorcado'",
     long_description=ld,
-    author="Jesús Cuerda",    
+    author="Jesús Cuerda",
     url="https://github.com/Webierta",
-    license="GNU GPLv3",    
+    license="GNU GPLv3",
     packages=find_packages(),
-    package_data={
-        "resources": [
-            "img/*.png",
-            "media/*.wav"]
-    },    
+    # package_data={
+    #     "resources": [
+    #         "img/*.png",
+    #         "media/*.wav"]
+    # },
+    include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",
         "Topic :: Games/Entertainment",
-        "Natural Language :: Spanish"        
-    ]    
+        "Natural Language :: Spanish"
+    ],
+    entry_points = {
+        "console_scripts":[
+            "ahorcado = ahorcado.main:main",
+        ]
+    }
 )

@@ -1,7 +1,7 @@
 El ahorcado
 ===========
 
-.. image:: https://raw.githubusercontent.com/Webierta/ahorcadoPy/master/resources/img/icon128.png
+.. image:: https://raw.githubusercontent.com/Webierta/ahorcadoPy/master/ahorcado/resources/img/icon128.png
    :alt: El ahorcado
 
 

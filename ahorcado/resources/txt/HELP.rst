@@ -13,4 +13,11 @@ Se gana el juego si se completa la palabra, y se pierde si 'mueres' en la horca 
 
 La aplicación guarda los resultados acumulados, que se pueden ver desde la página 'Marcador'.
 
-Desde el Menú -> Sonido se pueden activar o desactivar los efectos sonoros de la aplicación (solo en sistemas Linux).
+Opciones:
+--------
+
+SONIDO: Desde el Menú -> Sonido se pueden activar (por defecto) o desactivar los efectos sonoros de la aplicación (solo en sistemas Linux).
+
+TEMAS: Desde el Menú -> Temas se pueden seleccionar distintos temas (por defecto todos).
+
+Estas opciones (sonido y temas) quedan grabadas en la aplicación y se aplicarán a las nuevas partidas hasta que sean modificadas.

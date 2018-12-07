@@ -5,7 +5,7 @@ El ahorcado
    :alt: El ahorcado
 
 
-Juego del Ahorcado (versión 0.1.2 - 2018)
+Juego del Ahorcado (versión 0.1.3 - 2018)
 
 Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
 
@@ -34,10 +34,10 @@ REQUISITOS DEL SISTEMA
   .. code-block:: bash
 
      python3 -m tkinter
-    
-    
+
+
   .. code-block:: bash
- 
+
      tkinter._test()
 
 
@@ -89,6 +89,9 @@ DESARROLLO
 ----------
 
 Aplicación con lenguaje de programación python 3 e interfaz gráfica tkinter.
+
+0.1.3
+  Diciembre 2018: Añadida opción de temas.
 
 0.1.2
   Diciembre 2018: Empaquetado para distribución e instalación con pip

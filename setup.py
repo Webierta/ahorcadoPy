@@ -5,18 +5,13 @@ with open("README.rst", encoding="utf-8") as df:
 
 setup(
     name="ahorcado",
-    version="0.1.2",
+    version="0.1.3",
     description="Aplicación que revive el clásico juego de lápiz y papel 'El Ahorcado'",
     long_description=ld,
     author="Jesús Cuerda",
     url="https://github.com/Webierta",
     license="GNU GPLv3",
     packages=find_packages(),
-    # package_data={
-    #     "resources": [
-    #         "img/*.png",
-    #         "media/*.wav"]
-    # },
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",

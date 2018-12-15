@@ -3,7 +3,6 @@ import os
 from subprocess import call
 import webbrowser
 import threading
-
 try:
     import tkinter as tk
     import tkinter.font as font
@@ -13,12 +12,11 @@ try:
 except ImportError:
     print("Se requiere el modulo tkinter. Más información en about.txt")
     sys.exit(1)
-
-from ahorcado.juego import Juego  #import ahorcado.juego
-from ahorcado.datos import Datos  #import ahorcado.datos
+from ahorcado.juego import Juego
+from ahorcado.datos import Datos
 
 #-------------------------------------------------------------------------
-# clase: Checkbar(tk.Frame)#
+# clase: Checkbar(tk.Frame)
 #-------------------------------------------------------------------------
 class Checkbar(tk.Frame):
 
@@ -78,8 +76,7 @@ class Checkbar(tk.Frame):
 class Base:
 
     def __init__(self, master):
-        self.ahorcado = Juego()  # ahorcado = ahorcado.juego.Juego()
-        self.datos = Datos()     # datos = ahorcado.datos.Datos()
+        self.datos = Datos()
 
         # Fuentes y estilos
         font.nametofont("TkDefaultFont").configure(family="Helvetica", size=12)
@@ -101,38 +98,61 @@ class Base:
         self.master.configure(background="#121")
 
         # Menu
-        self.menuApp = tk.Menu(self.master)
+        self.menuApp = tk.Menu(self.master, font=("Helvetica", 12), relief=tk.FLAT)
         self.master.config(menu=self.menuApp)
-        self.opcGame = tk.Menu(self.menuApp, tearoff=0)
-        self.opcInfo = tk.Menu(self.menuApp, tearoff=0)
-        self.menuApp.add_cascade(menu=self.opcGame, label="Juego")
-        self.menuApp.add_cascade(menu=self.opcInfo, label="Info")
 
-        self.opcGame.add_command(label="Nuevo Juego", underline=0,
+        self.menuGame = tk.Menu(self.menuApp, tearoff=0, font=("Helvetica", 12),
+            bd=2, activeborderwidth=2, relief=tk.GROOVE)
+        self.menuEdit = tk.Menu(self.menuApp, tearoff=0, font=("Helvetica", 12),
+            bd=2, activeborderwidth=2, relief=tk.GROOVE)
+        self.menuInfo = tk.Menu(self.menuApp, tearoff=0, font=("Helvetica", 12),
+            bd=2, activeborderwidth=2, relief=tk.GROOVE)
+        self.menuApp.add_cascade(menu=self.menuGame, label="Juego")
+        self.menuApp.add_cascade(menu=self.menuEdit, label="Editar")
+        self.menuApp.add_cascade(menu=self.menuInfo, label="Info")
+
+        self.menuGame.add_command(label="Nuevo Juego", underline=0,
             command=lambda: self.cambiar_clase(Game), accelerator="Alt+N")
-        self.opcGame.add_command(label="Marcador",
+        self.menuGame.add_command(label="Marcador",
             command=lambda: self.cambiar_clase(Marcador))
-        self.opcGame.add_separator()
-
-        self.opcGame.add_command(label="Temas",
-            command=self.temas)
-
-        if self.datos.sonido == True:
-            self.opcGame.add_command(label="Sonido: OK",
-                command=lambda: self.cambiar_sonido(self.opcGame))
-        else:
-            self.opcGame.add_command(label="Sonido: Mute",
-                command=lambda: self.cambiar_sonido(self.opcGame))
-        self.opcGame.add_separator()
-        self.opcGame.add_command(label="Salir",
+        self.menuGame.add_separator()
+        self.menuGame.add_command(label="Salir",
             command=quit, accelerator="Alt+Q")
         self.master.bind_all("<Alt-n>", lambda event: self.cambiar_clase(Game))
         self.master.bind_all("<Alt-q>", lambda event: quit())
 
-        self.opcInfo.add_command(label="Ayuda",
+        self.niveles = tk.Menu(self.menuEdit, tearoff=0, font=("Helvetica", 12),
+            bd=2, activeborderwidth=2, relief=tk.GROOVE)
+        self.menuEdit.add_cascade(menu=self.niveles, label="Nivel ")
+        self.niveles.add_command(label="Avanzado",
+            command=lambda: self.cambiar_nivel(self.niveles, "Avanzado", 0, 1, 2))
+        self.niveles.add_command(label="Júnior",
+            command=lambda: self.cambiar_nivel(self.niveles, "Júnior", 1, 0, 2))
+        self.niveles.add_command(label="Temas",
+            command=lambda: self.cambiar_nivel(self.niveles, "Temas", 2, 0, 1))
+        if self.datos.nivel == "Avanzado":
+            self.niveles.entryconfigure(0, state="disabled")
+        elif self.datos.nivel == "Júnior":
+            self.niveles.entryconfigure(1, state="disabled")
+        else:
+            self.niveles.entryconfigure(2, state="disabled")
+
+        self.sonido = tk.Menu(self.menuEdit, tearoff=0, font=("Helvetica", 12),
+            bd=2, activeborderwidth=2, relief=tk.GROOVE)
+        self.menuEdit.add_cascade(menu=self.sonido, label="Sonido ")
+        self.sonido.add_command(label="OK",
+            command=lambda: self.cambiar_sonido(self.sonido, True, 0, 1))
+        self.sonido.add_command(label="Mute",
+            command=lambda: self.cambiar_sonido(self.sonido, False, 1, 0))
+        if self.datos.sonido == True:
+            self.sonido.entryconfigure(0, state="disabled")
+        else:
+            self.sonido.entryconfigure(1, state="disabled")
+
+        self.menuInfo.add_command(label="Ayuda",
             command=lambda:self.info(os.path.join(os.path.dirname(__file__),
             "resources/txt/HELP.rst")))
-        self.opcInfo.add_command(label="Acerca de",
+        self.menuInfo.add_command(label="Acerca de",
             command=lambda:self.info(os.path.join(os.path.dirname(__file__),
             "resources/txt/ABOUT.rst")))
 
@@ -176,49 +196,16 @@ class Base:
         newRoot = tk.Tk()
         clase(newRoot)  # self.mainloop()
 
-    def cambiar_sonido(self, menu):
-        if self.datos.sonido == True:
-            menu.entryconfigure(4, label="Sonido: Mute")
-            self.datos.guardar_sonido(False)
-        else:
-            menu.entryconfigure(4, label="Sonido: OK")
-            self.datos.guardar_sonido(True)
+    def cambiar_nivel(self, menu, lab, x, y, z):
+        menu.entryconfigure(x, state="disabled")
+        menu.entryconfigure(y, state="normal")
+        menu.entryconfigure(z, state="normal")
+        self.datos.guardar_nivel(lab)
 
-    def temas(self):
-        self.winTemas = tk.Toplevel(self.master)
-        self.winTemas.resizable(0,0)
-        sw = self.winTemas.winfo_screenwidth()  # posicion
-        sh = self.winTemas.winfo_screenheight()
-        sd = (sw - sh)
-        self.winTemas.geometry("600x600+%d+%d" %(sd/2, sd/6))
-        self.winTemas.configure(background="#121")
-
-        tk.Label(self.winTemas, text="Selecciona los temas del juego:", bg="#121",
-            fg="white", bd=0).pack(pady=20)
-
-        dictTemas = self.datos.return_temas()
-        ditCheck = Checkbar(self.winTemas, dictTemas)
-        ditCheck.pack(fill=tk.BOTH, expand="yes")
-        ditCheck.config(relief=tk.GROOVE, bd=0)
-
-        def allstates():
-            newDictTemas = ditCheck.state()
-            if newDictTemas:
-                self.datos.guardar_temas(newDictTemas)
-                self.cambiar_clase(Game)
-
-        frameBtn = tk.Frame(self.winTemas, bg="#121")
-        ttk.Button(frameBtn, text="Salir", width=10, style="gran.TButton",
-            command=self.winTemas.destroy).pack(side=tk.LEFT, ipady=8)
-        ttk.Button(frameBtn, text="Confirmar", width=10, style="gran.TButton",
-            command=allstates).pack(side=tk.LEFT, ipady=8)
-        frameBtn.pack(side=tk.BOTTOM, expand=False, padx=30, pady=20)
-
-        self.winTemas.focus_set()
-        self.winTemas.grab_set()
-        self.winTemas.transient(self.master)
-        self.master.wait_window(self.winTemas)
-        self.winTemas.mainloop()
+    def cambiar_sonido(self, menu, boleano, x, y):
+        menu.entryconfigure(x, state="disabled")
+        menu.entryconfigure(y, state="normal")
+        self.datos.guardar_sonido(boleano)
 
 #-------------------------------------------------------------------------
 # clase: StartPage(Base)
@@ -272,23 +259,46 @@ class Game(Base):
         super().__init__(master)
         self.master = master
 
+        self.ahorcado = Juego()
+
         # Contenedor Pista + Horca
         contenedor = tk.Frame(self.master, background="#121")
         contenedor.pack(side=tk.TOP, anchor="n", expand=False, ipady=10)
 
-        #Pista
-        filePista = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
-            "resources/img/pista.png"))
-        canvasPista = tk.Canvas(contenedor, width=32, height=32,
-            background="#121", bd=0, highlightthickness=0)
-        canvasPista.create_image(0, 0, anchor="nw", image=filePista)
-        canvasPista.bind("<Button-1>", self.muestra_pista)
-        canvasPista.pack(side=tk.TOP, anchor="ne", expand=False, pady=4)
+        # Comprobar que se ha obtenido palabra online
+        if self.datos.get_nivel() != "Temas":  #if (self.ahorcado.nivel == "Temas"):
+            if self.ahorcado.get_palabra() == "": #if self.ahorcado.palabra == "":
+                msg = "Por problemas de conexión el juego ha cambiado al nivel Temas."
+                # tk.messagebox.showwarning(title="Nivel: Temas", message=msg)
+                dialogo_w = tk.Toplevel(self.master)
+                dialogo_w.resizable(0,0)
+                tk.Label(dialogo_w, text=msg).pack(anchor="center", padx=10, pady=20)
+                boton = ttk.Button(dialogo_w, text='Cerrar',
+                    command=dialogo_w.destroy)
+                boton.bind('<Return>', lambda e: dialogo_w.destroy())
+                boton.focus()
+                boton.pack(side=tk.BOTTOM, padx=20, pady=20)
+                dialogo_w.focus_set()
+                dialogo_w.grab_set()
+                dialogo_w.transient(self.master)
+                self.master.wait_window(dialogo_w)
+                self.cambiar_clase(Game)
+        else:  # Pista para Temas
+            filePista = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
+                "resources/img/pista.png"))
+            canvasPista = tk.Canvas(contenedor, width=32, height=32,
+                background="#121", bd=0, highlightthickness=0)
+            canvasPista.create_image(0, 0, anchor="nw", image=filePista)
+            canvasPista.bind("<Button-1>", self.muestra_pista)
+            canvasPista.pack(side=tk.TOP, anchor="ne", expand=False, pady=4)
 
         # Horca
         self.canvasHorca = tk.Canvas(contenedor, width=403, height=435,
             background="#121", bd=0, highlightthickness=0)
-        self.canvasHorca.pack(side=tk.TOP, anchor="n", expand=False, padx=30)
+        if self.datos.get_nivel() == "Temas":  # if self.ahorcado.nivel == "Temas":
+            self.canvasHorca.pack(side=tk.TOP, anchor="n", expand=False, padx=30)
+        else:
+            self.canvasHorca.pack(side=tk.TOP, anchor="n", expand=False, padx=30, pady=20)
         self.imgFile = []
         for i in range(1, 8):
             fuente = "resources/img/"+str(i)+".png"

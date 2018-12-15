@@ -1,7 +1,5 @@
-from random import choice
-
 from ahorcado.datos import Datos
-from ahorcado.palabras import Vocabulario
+from ahorcado.palabra import Palabra
 
 #-------------------------------------------------------------------------
 # clase: Juego()
@@ -9,33 +7,34 @@ from ahorcado.palabras import Vocabulario
 class Juego:
 
     def __init__(self):
-        self.temasJuego = []
         self.pista = ""
         self.palabra = ""
         self.datos = Datos()
+        self.nivel = self.datos.get_nivel()
+        self.buscar_palabra = Palabra()
         self.fallos = 0
 
-        self.vocabulario = Vocabulario()
-        self.todosTemas =self.vocabulario.todosTemas
-
-        # Obtener nombres de los temas seleccionados
-        self.nombresCategorias = self.datos.get_select_categorias()
-
-        # Temas seleccionados
-        self.temasJuego = []
-        for tema in self.todosTemas:
-            for ele in self.nombresCategorias:
-                if tema["CATEGORIA"] == ele:
-                    self.temasJuego.append(tema)
-
-        # Tema aleatorio: obtener su pista y una palabra aleatoria
-        self.categoria = choice(self.temasJuego)
-        self.pista = self.categoria["PISTA"]
-        self.palabra = choice(self.categoria["PALABRAS"])
+        if self.nivel != "Temas":
+            while True:
+                if self.nivel == "Avanzado":
+                    self.buscar_palabra.online_nivel("0")
+                else:
+                    self.buscar_palabra.online_nivel("1")
+                self.palabra = self.buscar_palabra.get_palabra()
+                if (((len(self.palabra) > 2) and (len(self.palabra) < 12)) and
+                    (" " not in self.palabra) and ("-" not in self.palabra)):
+                    break
+                if self.buscar_palabra.get_palabra() == "":  #if self.palabra == "":
+                    break
+        else:
+            self.buscar_palabra.vocabulario()
+            self.palabra = self.buscar_palabra.get_palabra()
+            self.pista = self.buscar_palabra.get_pista()
 
         # Ocultar palabra
-        self.secreta = len(self.palabra) * "_"
-        self.lista = list(self.secreta)
+        if self.palabra != "":
+            self.secreta = len(self.palabra) * "_"
+            self.lista = list(self.secreta)
 
     def checkLetra(self, letra):
         if letra not in self.palabra:
@@ -55,3 +54,6 @@ class Juego:
         if self.palabra == ("".join(listaCheck)):
             return True
         return False
+
+    def get_palabra(self):
+        return self.palabra

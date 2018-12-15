@@ -5,7 +5,7 @@ with open("README.rst", encoding="utf-8") as df:
 
 setup(
     name="ahorcado",
-    version="0.1.3",
+    version="0.2.0",
     description="Aplicación que revive el clásico juego de lápiz y papel 'El Ahorcado'",
     long_description=ld,
     author="Jesús Cuerda",
@@ -13,6 +13,10 @@ setup(
     license="GNU GPLv3",
     packages=find_packages(),
     include_package_data=True,
+    install_requires=[
+        "requests",
+        "lxml"
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Topic :: Games/Entertainment",

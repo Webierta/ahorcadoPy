@@ -1,4 +1,4 @@
-Juego del Ahorcado (versión 0.1.3 - 2018)
+Juego del Ahorcado (versión 0.2.0 - 2018)
 =========================================
 
 Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
@@ -15,7 +15,7 @@ Software libre de código abierto sujeto a la GNU General Public License v.3, di
 REQUISITOS DEL SISTEMA
 ----------------------
 
-- Python versión 3.x. Requiere que el sistema tenga instalado Python versión 3.x, disponible en python.org para distintas plataformas: Windows, Linux/UNIX, Mac OS X y otras. Python se encuentra instalado por defecto en la mayoría de sistemas GNU/Linux si bien en muchas ocasiones se trata de una versión 2.x. La versión 3.x suele estar incluida en los repositorios de casi todas las distribuciones linux, por lo que su instalación es sencilla. La aplicación sólo utiliza componentes de la librería estándar de Python.
+- Python versión 3.x. Requiere que el sistema tenga instalado Python versión 3.x, disponible en python.org para distintas plataformas: Windows, Linux/UNIX, Mac OS X y otras. Python se encuentra instalado por defecto en la mayoría de sistemas GNU/Linux si bien en muchas ocasiones se trata de una versión 2.x. La versión 3.x suele estar incluida en los repositorios de casi todas las distribuciones linux, por lo que su instalación es sencilla. La aplicación utiliza componentes de la librería estándar de Python, con dos excepciones: las librerías **requests** y **lxml** para HTTP y HTML (utilizadas para obtener las palbras de la web).
 
 - El paquete 'tkinter' para Python. Actualmente se incluye con todas las distribuciones estándar de Python3.x. Este paquete ofrece la interfaz estándar de Python para el conjunto de herramientas gráficas. En Windows ya se instaló cuando instalaste Python 3. Aunque tkinter es parte de la biblioteca estándar de Python, muchas distribuciones linux lo empaquetan por separado del paquete principal de Python. Para comprobar si está instalado en tu sistema, desde consola: $ python3, y luego >>>import tkinter
 
@@ -27,16 +27,19 @@ REQUISITOS DEL SISTEMA
 
     tkinter._test()
 
+- Conexión a internet solo en los niveles «Avanzado» y «Júnior». También es posible jugar sin conexión a internet en el nivel «Temas».
 
 INSTALACIÓN / EJECUCIÓN
 -----------------------
 Puedes instalarlo o simplemente ejecutar sin instalar:
 
 
-INSTALAR
+INSTALAR (recomendado)
 ::::::::
 
-Si te sientes cómodo con pip, descarga el archivo comprimido y ejecuta preferiblemente en un entorno virtual:
+Se recomienda este método porque durante el proceso de instalación instalará, en caso necesario, las dependencias requeridas.
+
+Descarga el archivo comprimido e instala con pip preferiblemente en un entorno virtual. Por ejemplo, ejecuta:
 
   $ pip install ahorcado-0.1.1.tar.gz
 o
@@ -50,6 +53,8 @@ Y después arranca la aplicación con:
 EJECUCIÓN
 :::::::::
 
+Asegúrate de cumplir los requisitos y especialmente las dependencias de las librerías requests y lxml. Las puedes instalar con pip o pip3, o en linux desde los repositorios de tu distribución (paquetes con nombres como python3-lxml o python-request).
+
 Para ejecutar el juego sin instalarlo, descarga el repositorio comprimido (zip), descomprime y desde consola (en Windows la abres con cmd) desplázate y entra en el directorio principal (ahorcadoPy) y escribe:
 
   $ python -m ahorcado.main
@@ -61,6 +66,9 @@ DESARROLLO
 ----------
 
 Aplicación con lenguaje de programación python 3 e interfaz gráfica tkinter.
+
+0.2.0
+  Diciembre 2018: Generación de palabras online y nuevos niveles de dificultad.
 
 0.1.3
   Diciembre 2018: Añadida opción de temas.
@@ -78,6 +86,7 @@ Aplicación con lenguaje de programación python 3 e interfaz gráfica tkinter.
 RECONOCIMIENTOS
 ---------------
 
+- Creador de palabras aleatorias online: palabrasaleatorias.com
 - Banco de imágenes y sonidos del Instituto de Tecnologías Educativas. Ministerio de Educación.
 - Noun Project.
 - Flaticon: Picol, Freepik, Tuts+, Icomoon, Daniel Bruce, Amit Jakhu.

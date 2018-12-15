@@ -1,78 +1,55 @@
 import configparser
-from ahorcado.palabras import Vocabulario
 
 #-------------------------------------------------------------------------
 # clase: Datos()
 #-------------------------------------------------------------------------
 class Datos:
 
-    def __init__(self):
-        self.configuracion = configparser.ConfigParser()
-        self.configuracion["Marcador"] = {
-            "victorias": "0", "derrotas": "0"}
-        self.configuracion["General"] = {"sonido": "True"}
-        self.configuracion["Temas"] = {}
+    def guardar_cfg(self):
+        with open("config.cfg", "w") as archivoconfig:
+            self.cfg.write(archivoconfig)
 
-        self.vocabulario = Vocabulario()
-        categoriasLista = self.vocabulario.all_categorias()
-        for nombreTema in categoriasLista:
-            self.configuracion["Temas"][nombreTema] = "True"
+    def __init__(self):
+        self.cfg = configparser.ConfigParser()
+        self.cfg["Marcador"] = {
+            "victorias": "0", "derrotas": "0"}
+        self.cfg["Opciones"] = {"nivel": "Avanzado", "sonido": "True"}
 
         try:
-            self.configuracion.read("config.cfg")
+            self.cfg.read("config.cfg")
         except:
-            with open("config.cfg", "w") as archivoconfig:
-                self.configuracion.write(archivoconfig)
+            self.guardar_cfg()
 
-        self.victorias = int(self.configuracion["Marcador"].get("victorias"))
-        self.derrotas = int(self.configuracion["Marcador"].get("derrotas"))
-
-        self.sonido = self.configuracion.getboolean("General", "sonido")
-
-        self.temas = {}
-        for cat, valor in self.configuracion["Temas"].items():
-            self.temas[cat] = self.configuracion.getboolean("Temas", cat)
-            self.cat = self.configuracion.getboolean("Temas", cat)
+        self.victorias = int(self.cfg["Marcador"].get("victorias"))
+        self.derrotas = int(self.cfg["Marcador"].get("derrotas"))
+        self.nivel = self.cfg["Opciones"].get("nivel")
+        self.sonido = self.cfg.getboolean("Opciones", "sonido")
 
     def guardar_marcador(self, v=0, d=0):
         if v == 1:
             self.victorias += 1
         if d == 1:
             self.derrotas += 1
-        self.configuracion.set("Marcador", "victorias", str(self.victorias))
-        self.configuracion.set("Marcador", "derrotas", str(self.derrotas))
-        with open("config.cfg", "w") as archivoconfig:
-            self.configuracion.write(archivoconfig)
+        self.cfg.set("Marcador", "victorias", str(self.victorias))
+        self.cfg.set("Marcador", "derrotas", str(self.derrotas))
+        self.guardar_cfg()
 
     def reset_marcador(self):
         self.victorias = 0
         self.derrotas = 0
-        self.configuracion.set("Marcador", "victorias", str(self.victorias))
-        self.configuracion.set("Marcador", "derrotas", str(self.derrotas))
-        with open("config.cfg", "w") as archivoconfig:
-            self.configuracion.write(archivoconfig)
+        self.cfg.set("Marcador", "victorias", str(self.victorias))
+        self.cfg.set("Marcador", "derrotas", str(self.derrotas))
+        self.guardar_cfg()
 
     def guardar_sonido(self, sond):
         self.sonido = sond
-        self.configuracion.set("General", "sonido", str(self.sonido))
-        with open("config.cfg", "w") as archivoconfig:
-            self.configuracion.write(archivoconfig)
+        self.cfg.set("Opciones", "sonido", str(self.sonido))
+        self.guardar_cfg()
 
-    def guardar_temas(self, dictTemas):
-        self.temas = {}
-        for tema, valor in dictTemas.items():
-            self.temas[tema] = str(valor)  # self.temas[tema] = str(valor.get())
-            self.tema = str(valor)
-            self.configuracion.set("Temas", tema, str(self.tema))
-        with open("config.cfg", "w") as archivoconfig:
-            self.configuracion.write(archivoconfig)
+    def guardar_nivel(self, nivel):
+        self.nivel = nivel
+        self.cfg.set("Opciones", "nivel", self.nivel)
+        self.guardar_cfg()
 
-    def return_temas(self):
-        return self.temas
-
-    def get_select_categorias(self):
-        self.selectTemas = []
-        for tema, valor in self.temas.items():
-            if valor == True:
-                self.selectTemas.append(tema.upper())
-        return self.selectTemas
+    def get_nivel(self):
+        return self.nivel

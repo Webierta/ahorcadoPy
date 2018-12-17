@@ -5,7 +5,7 @@ El ahorcado
    :alt: El ahorcado
 
 
-Juego del Ahorcado (versión 0.2.0 - 2018)
+Juego del Ahorcado (versión 0.2.1 - 2018)
 
 Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
 
@@ -23,7 +23,7 @@ Software libre de código abierto sujeto a la GNU General Public License v.3, di
 REQUISITOS DEL SISTEMA
 ----------------------
 
-- **Python versión 3.x**. Requiere que el sistema tenga instalado Python versión 3.x, disponible en python.org para distintas plataformas: Windows, Linux/UNIX, Mac OS X y otras. Python se encuentra instalado por defecto en la mayoría de sistemas GNU/Linux si bien en muchas ocasiones se trata de una versión 2.x. La versión 3.x suele estar incluida en los repositorios de casi todas las distribuciones linux, por lo que su instalación es sencilla. La aplicación utiliza componentes de la librería estándar de Python, con dos excepciones: las librerías **requests** y **lxml** para HTTP y HTML (utilizadas para obtener las palbras de la web).
+- **Python versión 3.x**. Requiere que el sistema tenga instalado Python versión 3.x, disponible en python.org para distintas plataformas: Windows, Linux/UNIX, Mac OS X y otras. Python se encuentra instalado por defecto en la mayoría de sistemas GNU/Linux si bien en muchas ocasiones se trata de una versión 2.x. La versión 3.x suele estar incluida en los repositorios de casi todas las distribuciones linux, por lo que su instalación es sencilla. La aplicación solo utiliza componentes de la librería estándar de Python, sin ninguna dependencia de librerías de terceros.
 
 - **El paquete 'tkinter' para Python**. Actualmente se incluye con todas las distribuciones estándar de Python3.x. Este paquete ofrece la interfaz estándar de Python para el conjunto de herramientas gráficas. En Windows ya se instaló cuando instalaste Python 3. Aunque tkinter es parte de la biblioteca estándar de Python, muchas distribuciones linux lo empaquetan por separado del paquete principal de Python. Para comprobar si está instalado en tu sistema, desde consola: $ python3, y luego >>>import tkinter
 
@@ -47,13 +47,10 @@ INSTALACIÓN / EJECUCIÓN
 -----------------------
 Puedes instalarlo o simplemente ejecutar sin instalar:
 
+INSTALAR
+::::::::
 
-INSTALAR (**recomendado**)
-:::::::::::::::::::::::
-
-Se recomienda este método porque durante el proceso de instalación instalará, en caso necesario, las dependencias requeridas.
-
-Descarga el archivo comprimido e instala con pip preferiblemente en un entorno virtual (para saber cómo crear y usar un entorno virtual puedes visitar `Entornos virtuales con Python <https://python-para-impacientes.blogspot.com/2015/02/entornos-virtuales-con-python.html>`_). Por ejemplo, ejecuta:
+Descarga el archivo comprimido e instala con pip (preferiblemente en un entorno virtual; para saber cómo crear y usar un entorno virtual puedes visitar `Entornos virtuales con Python <https://python-para-impacientes.blogspot.com/2015/02/entornos-virtuales-con-python.html>`_). Por ejemplo, ejecuta:
 
 .. code-block:: bash
 
@@ -76,9 +73,7 @@ Y después arranca la aplicación con:
 EJECUCIÓN
 :::::::::
 
-Asegúrate de cumplir los requisitos y especialmente las dependencias de las librerías **requests** y **lxml**. Las puedes instalar con pip o pip3, o en linux desde los repositorios de tu distribución (paquetes con nombres como python3-lxml o python-request).
-
-Para ejecutar el juego sin instalarlo, descarga el repositorio comprimido (zip), descomprime y desde consola (en Windows la abres con cmd) desplázate y entra en el directorio principal (ahorcadoPy) y escribe:
+Antes asegúrate de cumplir los requisitos. Para ejecutar el juego sin instalarlo, descarga el repositorio comprimido (zip), descomprime y desde consola (en Windows la abres con cmd) desplázate y entra en el directorio principal (ahorcadoPy) y escribe:
 
 .. code-block:: bash
 
@@ -95,6 +90,9 @@ DESARROLLO
 ----------
 
 Aplicación con lenguaje de programación python 3 e interfaz gráfica tkinter.
+
+0.2.1
+  Diciembre 2018: Eliminación de dependencias de librerías de terceros.
 
 0.2.0
   Diciembre 2018: Generación de palabras online y nuevos niveles de dificultad.
@@ -115,7 +113,7 @@ Aplicación con lenguaje de programación python 3 e interfaz gráfica tkinter.
 RECONOCIMIENTOS
 ---------------
 
-- Creador de palabras aleatorias online: `palabrasaleatorias.com <https://www.palabrasaleatorias.com>`_
+- Generador de palabras aleatorias online: `palabrasaleatorias.com <https://www.palabrasaleatorias.com>`_
 - Banco de imágenes y sonidos del Instituto de Tecnologías Educativas. Ministerio de Educación.
 - Noun Project.
 - Flaticon: Picol, Freepik, Tuts+, Icomoon, Daniel Bruce, Amit Jakhu.

@@ -94,7 +94,7 @@ class Base:
         winAlto = self.master.winfo_reqheight()
         posDcha = int(self.master.winfo_screenwidth()/3 - winAncho/2)
         posBajo = int(self.master.winfo_screenheight()/4 - winAlto/2)
-        self.master.geometry("600x700+{}+{}".format(posDcha, posBajo))
+        self.master.geometry("700x700+{}+{}".format(posDcha, posBajo))
         self.master.configure(background="#121")
 
         # Menu

@@ -15,17 +15,8 @@ class Juego:
         self.fallos = 0
 
         if self.nivel != "Temas":
-            while True:
-                if self.nivel == "Avanzado":
-                    self.buscar_palabra.online_nivel("0")
-                else:
-                    self.buscar_palabra.online_nivel("1")
-                self.palabra = self.buscar_palabra.get_palabra()
-                if (((len(self.palabra) > 2) and (len(self.palabra) < 12)) and
-                    (" " not in self.palabra) and ("-" not in self.palabra)):
-                    break
-                if self.buscar_palabra.get_palabra() == "":  #if self.palabra == "":
-                    break
+            self.buscar_palabra.online_nivel()
+            self.palabra = self.buscar_palabra.get_palabra()
         else:
             self.buscar_palabra.vocabulario()
             self.palabra = self.buscar_palabra.get_palabra()

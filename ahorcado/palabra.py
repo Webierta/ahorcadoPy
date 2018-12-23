@@ -1,7 +1,6 @@
 import os
 import json
 from random import choice
-
 from urllib.request import Request, urlopen  # import urllib.request
 from urllib.error import URLError, HTTPError
 import re
@@ -10,9 +9,9 @@ from unicodedata import normalize
 from ahorcado.datos import Datos
 
 #-------------------------------------------------------------------------
-# clase: Palabra()
+# clase: Palabra(object)
 #-------------------------------------------------------------------------
-class Palabra:
+class Palabra(object):
 
     def __init__(self):
         self.palabra = ""
@@ -20,28 +19,22 @@ class Palabra:
         self.datos = Datos()
         self.error_match = 0
 
-    def online_nivel(self):  # def online_nivel(self, niv):
+    def online_nivel(self):
         url1 = "https://www.palabrasaleatorias.com/?fs=1&fs2="
         url2 = "&Submit=Nueva+palabra"
-        nivel = self.datos.get_nivel()
-        if nivel == "Avanzado":
-            self.url = url1 + "0" + url2
-        else:
-            self.url = url1 + "1" + url2
+        niveles = {"Avanzado": "0", "Júnior": "1"}
         headers = {'User-Agent':
             "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:48.0) Gecko/20100101 Firefox/48.0"}
         try:
-            req = Request(self.url, headers = headers)
+            url = url1 + niveles[self.datos.nivel] + url2
+            req = Request(url, headers = headers)
             source = urlopen(req).read()  #.decode('utf-8')
-        except HTTPError as e:
-            print('HTTP Error: ', e.code)
-            self.cambiar_vocabulario()
-        except URLError as e:
-            print('URL Error: ', e.reason)
-            self.cambiar_vocabulario()
+        except (HTTPError, URLError) as e:
+            print("Error:", e)
+            self.datos.guardar_nivel("Temas")
         except:
             print("Error de conexión")
-            self.cambiar_vocabulario()
+            self.datos.guardar_nivel("Temas")
         else:
             self.online(source)
 
@@ -71,12 +64,9 @@ class Palabra:
     def cont_error_match(self):
         self.error_match += 1
         if self.error_match > 2:
-            self.cambiar_vocabulario()
+            self.datos.guardar_nivel("Temas")
         else:
             self.online_nivel()
-
-    def cambiar_vocabulario(self):
-        self.datos.guardar_nivel("Temas")
 
     def vocabulario(self):
         filePalabras = os.path.join(os.path.dirname(__file__),
@@ -96,9 +86,3 @@ class Palabra:
             self.categoria = choice(self.todosTemas)
             self.pista = self.categoria["PISTA"]
             self.palabra = choice(self.categoria["PALABRAS"])
-
-    def get_palabra(self):
-        return self.palabra
-
-    def get_pista(self):
-        return self.pista

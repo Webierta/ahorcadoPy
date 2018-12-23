@@ -14,73 +14,38 @@ except ImportError:
     sys.exit(1)
 from ahorcado.juego import Juego
 from ahorcado.datos import Datos
+from ahorcado.pop import Popup
 
-#-------------------------------------------------------------------------
-# clase: Checkbar(tk.Frame)
-#-------------------------------------------------------------------------
-class Checkbar(tk.Frame):
-
-    def __init__(self, win, dick):
-        tk.Frame.__init__(self, win)
-        frameIz = tk.Frame(self)
-        frameDr = tk.Frame(self)
-        frameID = frameIz
-        self.cbuts = []
-        self.catego = []
-        self.vars = []
-        for ele in dick:
-            var = tk.BooleanVar()
-            if dick[ele] == True:
-                var.set(True)
-            chk = tk.Checkbutton(frameID, text=ele.upper(), variable=var, command=self.no_all)
-            chk.pack(side=tk.TOP, anchor="w", expand="no", padx=20)
-            self.vars.append(var)
-            self.catego.append(ele)
-            if frameID == frameIz:
-                frameID = frameDr
-            else:
-                frameID = frameIz
-            self.cbuts.append(chk)
-        self.varT = tk.BooleanVar()
-        self.chkT = tk.Checkbutton(frameDr, text="TODO", variable=self.varT,
-            command=self.select_all)
-        self.chkT.pack(side=tk.TOP, anchor="w", expand="no", padx=20)
-        frameIz.pack(side=tk.LEFT, expand="yes")
-        frameDr.pack(side=tk.LEFT, expand="yes")
-
-    def no_all(self):
-        self.chkT.deselect()  # self.varT.set(False)
-
-    def select_all(self):
-        for chk in self.cbuts:
-            chk.select()  # chk.invoke()
-
-    def check_temas(self, dictConfirmado):
-        for tema in dictConfirmado:
-            if dictConfirmado[tema] == True:
-                return True
-        return False
-
-    def state(self):
-        valores = list(map((lambda var: var.get()), self.vars))
-        newDict = dict(zip(self.catego, valores))
-        selectOk = self.check_temas(newDict)
-        if selectOk == True:
-            return newDict
-        else:
-            return False
+files = {
+    "help": os.path.join(os.path.dirname(__file__), "resources/txt/HELP.rst"),
+    "about": os.path.join(os.path.dirname(__file__), "resources/txt/ABOUT.rst"),
+    "titulo": os.path.join(os.path.dirname(__file__), "resources/img/ahorcado.png"),
+    "icono": os.path.join(os.path.dirname(__file__), "resources/img/icon128.png"),
+    "paypal": os.path.join(os.path.dirname(__file__), "resources/img/donate.gif"),
+    "pista": os.path.join(os.path.dirname(__file__), "resources/img/pista.png"),
+    "marcador": os.path.join(os.path.dirname(__file__), "resources/img/marcador.png"),
+    "triunfos": os.path.join(os.path.dirname(__file__), "resources/img/triunfos.png"),
+    "derrotas": os.path.join(os.path.dirname(__file__), "resources/img/derrotas.png"),
+    "error": os.path.join(os.path.dirname(__file__), "resources/media/error.wav"),
+    "acierto": os.path.join(os.path.dirname(__file__), "resources/media/acierto.wav"),
+    "gameover": os.path.join(os.path.dirname(__file__), "resources/media/gameover.wav"),
+    "victoria": os.path.join(os.path.dirname(__file__), "resources/media/victoria.wav")
+}
 
 #-------------------------------------------------------------------------
 # clase: Base()
 #-------------------------------------------------------------------------
-class Base:
+class Base(object):
+
+    modos = {"Avanzado": 0, "Júnior": 1, "Temas": 2}
 
     def __init__(self, master):
+
         self.datos = Datos()
 
         # Fuentes y estilos
         font.nametofont("TkDefaultFont").configure(family="Helvetica", size=12)
-        font.nametofont("TkMenuFont").configure(family="Helvetica", size=11)
+        font.nametofont("TkMenuFont").configure(family="Helvetica", size=12)
         font.nametofont("TkCaptionFont").configure(family="Helvetica", size=12,
             weight="normal")
         ttk.Style().configure('gran.TButton', font=("Helvetica", 18))
@@ -88,25 +53,19 @@ class Base:
 
         # Ventana
         self.master = master
-        self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
+        self.master.protocol("WM_DELETE_WINDOW", lambda: sys.exit())
         self.master.title("El Ahorcado")
-        winAncho = self.master.winfo_reqwidth()
-        winAlto = self.master.winfo_reqheight()
-        posDcha = int(self.master.winfo_screenwidth()/3 - winAncho/2)
-        posBajo = int(self.master.winfo_screenheight()/4 - winAlto/2)
-        self.master.geometry("700x700+{}+{}".format(posDcha, posBajo))
         self.master.configure(background="#121")
 
         # Menu
-        self.menuApp = tk.Menu(self.master, font=("Helvetica", 12), relief=tk.FLAT)
+        self.menuApp = tk.Menu(self.master, relief=tk.FLAT)
         self.master.config(menu=self.menuApp)
-
-        self.menuGame = tk.Menu(self.menuApp, tearoff=0, font=("Helvetica", 12),
-            bd=2, activeborderwidth=2, relief=tk.GROOVE)
-        self.menuEdit = tk.Menu(self.menuApp, tearoff=0, font=("Helvetica", 12),
-            bd=2, activeborderwidth=2, relief=tk.GROOVE)
-        self.menuInfo = tk.Menu(self.menuApp, tearoff=0, font=("Helvetica", 12),
-            bd=2, activeborderwidth=2, relief=tk.GROOVE)
+        self.menuGame = tk.Menu(self.menuApp, tearoff=0, bd=2,
+            activeborderwidth=2, relief=tk.GROOVE)
+        self.menuEdit = tk.Menu(self.menuApp, tearoff=0, bd=2,
+            activeborderwidth=2, relief=tk.GROOVE)
+        self.menuInfo = tk.Menu(self.menuApp, tearoff=0, bd=2,
+            activeborderwidth=2, relief=tk.GROOVE)
         self.menuApp.add_cascade(menu=self.menuGame, label="Juego")
         self.menuApp.add_cascade(menu=self.menuEdit, label="Editar")
         self.menuApp.add_cascade(menu=self.menuInfo, label="Info")
@@ -117,59 +76,45 @@ class Base:
             command=lambda: self.cambiar_clase(Marcador))
         self.menuGame.add_separator()
         self.menuGame.add_command(label="Salir",
-            command=quit, accelerator="Alt+Q")
+            command=sys.exit, accelerator="Alt+Q")
         self.master.bind_all("<Alt-n>", lambda event: self.cambiar_clase(Game))
-        self.master.bind_all("<Alt-q>", lambda event: quit())
+        self.master.bind_all("<Alt-q>", lambda event: sys.exit())
 
-        self.niveles = tk.Menu(self.menuEdit, tearoff=0, font=("Helvetica", 12),
+        self.niveles = tk.Menu(self.menuEdit, tearoff=0,
             bd=2, activeborderwidth=2, relief=tk.GROOVE)
         self.menuEdit.add_cascade(menu=self.niveles, label="Nivel ")
-        self.niveles.add_command(label="Avanzado",
-            command=lambda: self.cambiar_nivel(self.niveles, "Avanzado", 0, 1, 2))
-        self.niveles.add_command(label="Júnior",
-            command=lambda: self.cambiar_nivel(self.niveles, "Júnior", 1, 0, 2))
-        self.niveles.add_command(label="Temas",
-            command=lambda: self.cambiar_nivel(self.niveles, "Temas", 2, 0, 1))
-        if self.datos.nivel == "Avanzado":
-            self.niveles.entryconfigure(0, state="disabled")
-        elif self.datos.nivel == "Júnior":
-            self.niveles.entryconfigure(1, state="disabled")
-        else:
-            self.niveles.entryconfigure(2, state="disabled")
+        for clave in self.modos:
+            self.niveles.add_command(label=clave, command=lambda arg=clave:
+                self.cambiar_nivel(self.niveles, arg))
+        self.niveles.entryconfigure(self.modos[self.datos.nivel], state="disabled")
 
-        self.sonido = tk.Menu(self.menuEdit, tearoff=0, font=("Helvetica", 12),
-            bd=2, activeborderwidth=2, relief=tk.GROOVE)
+        self.sonido = tk.Menu(self.menuEdit, tearoff=0, bd=2,
+            activeborderwidth=2, relief=tk.GROOVE)
         self.menuEdit.add_cascade(menu=self.sonido, label="Sonido ")
         self.sonido.add_command(label="OK",
-            command=lambda: self.cambiar_sonido(self.sonido, True, 0, 1))
+            command=lambda: self.cambiar_sonido(self.sonido, True))
         self.sonido.add_command(label="Mute",
-            command=lambda: self.cambiar_sonido(self.sonido, False, 1, 0))
-        if self.datos.sonido == True:
-            self.sonido.entryconfigure(0, state="disabled")
-        else:
-            self.sonido.entryconfigure(1, state="disabled")
+            command=lambda: self.cambiar_sonido(self.sonido, False))
+        entry = 0 if self.datos.sonido else 1
+        self.sonido.entryconfigure(entry, state="disabled")
 
         self.menuInfo.add_command(label="Ayuda",
-            command=lambda:self.info(os.path.join(os.path.dirname(__file__),
-            "resources/txt/HELP.rst")))
+            command=lambda: self.info(files.get("help", "ERROR")))
         self.menuInfo.add_command(label="Acerca de",
-            command=lambda:self.info(os.path.join(os.path.dirname(__file__),
-            "resources/txt/ABOUT.rst")))
-
-    def on_closing(self):
-        sys.exit()  #self.salir()
+            command=lambda: self.info(files.get("about", "ERROR")))
 
     def info(self, archivoInfo):
-        self.dialogo = tk.Toplevel(self.master)
-        self.dialogo.resizable(0,0)
-        sw = self.dialogo.winfo_screenwidth()  # posicion
-        sh = self.dialogo.winfo_screenheight()
-        sd = (sw - sh)
-        self.dialogo.geometry("600x600+%d+%d" %(sd/2, sd/6))
+        dialogo = tk.Toplevel(self.master)
+        dialogo.resizable(0,0)
+        geom = self.master.winfo_geometry()
+        pos = geom.split("+")
+        pX = str(int(pos[1]) - 1)
+        pY = str(int(pos[2]) - 56)
+        dialogo.geometry("600x600+{}+{}".format(pX, pY))
 
-        frame_txt = tk.Frame(self.dialogo)
-        text = tk.scrolledtext.ScrolledText(frame_txt,
-            wrap="word", font=("Courier", 12))
+        frame_txt = tk.Frame(dialogo)
+        text = tk.scrolledtext.ScrolledText(
+            frame_txt, wrap="word", font=("Courier", 12))
         try:
             with open(archivoInfo, "r", encoding='utf-8') as archivoOpen:
                 txtRead = archivoOpen.read()
@@ -180,32 +125,45 @@ class Base:
         text.pack(fill=tk.BOTH, expand=1)
         frame_txt.pack(fill=tk.BOTH, expand=1, side=tk.TOP)
 
-        boton = ttk.Button(self.dialogo, text='Cerrar',
-            command=self.dialogo.destroy)
-        boton.bind('<Return>', lambda e: self.dialogo.destroy())
+        boton = ttk.Button(dialogo, text='Cerrar', command=dialogo.destroy)
+        boton.bind('<Return>', lambda e: dialogo.destroy())
         boton.focus()
         boton.pack(side=tk.BOTTOM, padx=20, pady=20)
 
-        self.dialogo.focus_set()
-        self.dialogo.grab_set()
-        self.dialogo.transient(self.master)
-        self.master.wait_window(self.dialogo)  #self.dialogo.mainloop()
+        dialogo.focus_set()
+        dialogo.grab_set()
+        dialogo.transient(self.master)
+        self.master.wait_window(dialogo)  #self.dialogo.mainloop()
 
     def cambiar_clase(self, clase):
+        geom = self.master.winfo_geometry()
+        pos = geom.split("+")
+        pX = str(int(pos[1]) - 1)
+        pY = str(int(pos[2]) - 56)
+        self.datos.guardar_pantalla(*[pX, pY])
+
         self.master.destroy()
+
+        ejeX = str(int(self.datos.posicion_x) + 175)
+        ejeY = str(int(self.datos.posicion_y) + 250)
+        if clase == Game:
+            Popup("Generando palabra", ejeX, ejeY, tit="update")
         newRoot = tk.Tk()
-        clase(newRoot)  # self.mainloop()
+        posX = self.datos.posicion_x
+        posY = self.datos.posicion_y
+        newRoot.geometry("700x700+{}+{}".format(posX, posY))
+        clase(newRoot)  # newRoot.mainloop()
 
-    def cambiar_nivel(self, menu, lab, x, y, z):
-        menu.entryconfigure(x, state="disabled")
-        menu.entryconfigure(y, state="normal")
-        menu.entryconfigure(z, state="normal")
-        self.datos.guardar_nivel(lab)
+    def cambiar_nivel(self, menu, clave):
+        for key, value in self.modos.items():
+            estado = "disabled" if key == clave else "normal"
+            menu.entryconfigure(value, state=estado)
+        self.datos.guardar_nivel(clave)
 
-    def cambiar_sonido(self, menu, boleano, x, y):
-        menu.entryconfigure(x, state="disabled")
-        menu.entryconfigure(y, state="normal")
-        self.datos.guardar_sonido(boleano)
+    def cambiar_sonido(self, menu, booleano):
+        menu.entryconfigure(int(not booleano), state="disabled")
+        menu.entryconfigure(int(booleano), state="normal")
+        self.datos.guardar_sonido(booleano)
 
 #-------------------------------------------------------------------------
 # clase: StartPage(Base)
@@ -216,15 +174,21 @@ class StartPage(Base):
         super().__init__(master)
         self.master = master
 
-        imgTitulo = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
-            "resources/img/ahorcado.png"))
+        try:
+            imgTitulo = tk.PhotoImage(file=files["titulo"])
+        except:
+            print("ERROR: ARCHIVO NO ENCONTRADO.")
+            imgTitulo = tk.PhotoImage()
         canvas = tk.Canvas(self.master, width=530, height=48,
             background="#121", bd=0, highlightthickness=0)
         canvas.create_image(0, 0, anchor="nw", image=imgTitulo)
         canvas.pack(side=tk.TOP, expand=False, padx=30, pady=30)
 
-        imgIcon = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
-            "resources/img/icon128.png"))
+        try:
+            imgIcon = tk.PhotoImage(file=files["icono"])
+        except:
+            print("ERROR: ARCHIVO NO ENCONTRADO.")
+            imgIcon = tk.PhotoImage()
         canvasIcon = tk.Canvas(self.master, width=128, height=128,
             background="#121", bd=0, highlightthickness=0)
         canvasIcon.create_image(0, 0, anchor="nw", image=imgIcon)
@@ -238,15 +202,19 @@ class StartPage(Base):
         btnGame.pack(side=tk.TOP, fill=tk.BOTH, padx=30, pady=10, ipady=10)
         btnPunt.pack(side=tk.TOP, fill=tk.BOTH, padx=30, pady=0, ipady=10)
 
-        imgPaypal = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
-            "resources/img/donate.gif"))
+        try:
+            imgPaypal = tk.PhotoImage(file=files["paypal"])
+        except:
+            print("ERROR: ARCHIVO NO ENCONTRADO.")
+            imgPaypal = tk.PhotoImage()
         tk.Button(self.master, image=imgPaypal, cursor="hand1", bd=0,
-            activebackground="#BDBDBD", command=self.paypal).pack(side=tk.BOTTOM,
-            pady=10)
+            highlightthickness=0, background="#121", activebackground="#121",
+            command=self.paypal).pack(side=tk.BOTTOM, pady=10)
 
         self.master.mainloop()
 
-    def paypal(self):
+    @staticmethod
+    def paypal():
         webbrowser.open_new("https://www.paypal.com/cgi-bin/webscr?"
             "cmd=_s-xclick&hosted_button_id=986PSAHLH6N4L")
 
@@ -260,156 +228,142 @@ class Game(Base):
         self.master = master
 
         self.ahorcado = Juego()
+        # Comprueba que se ha obtenido palabra online
+        if self.datos.nivel != "Temas" and self.ahorcado.palabra == "":
+            msg = ("Por problemas de conexión el juego ha cambiado al nivel "
+                "«Temas».\nPuedes seguir jugando en este nivel o intentar otra "
+                "vez un modo\nonline como «Avanzado» o «Júnior».\n\n"
+                "Comprueba el estado de tu conexión a internet si este mensaje "
+                "se\nmuestra de nuevo.")
+            winErrorNet = tk.Toplevel(self.master)
+            winErrorNet.resizable(0,0)
+            pX = self.datos.posicion_x
+            pY = self.datos.posicion_y
+            winErrorNet.geometry("+{}+{}".format(pX, pY))
 
-        # Contenedor Pista + Horca
+            tk.Label(winErrorNet, text=msg, justify="left").pack(anchor="center",
+                padx=10,pady=20)
+            boton = ttk.Button(winErrorNet, text='Cerrar', command=winErrorNet.destroy)
+            boton.bind('<Return>', lambda e: winErrorNet.destroy())
+            boton.focus()
+            boton.pack(side=tk.BOTTOM, padx=20, pady=20)
+            winErrorNet.focus_set()
+            winErrorNet.grab_set()
+            winErrorNet.transient(self.master)
+            self.master.wait_window(winErrorNet)
+            super().cambiar_nivel(self.niveles, "Temas") # self.cambiar_clase(Game)
+            self.ahorcado = Juego()
+
+        self.pista_horca()
+        self.letra_oculta()
+        self.teclado()
+        self.master.mainloop()
+
+    def pista_horca(self):  # Contenedor Pista + Horca
         contenedor = tk.Frame(self.master, background="#121")
         contenedor.pack(side=tk.TOP, anchor="n", expand=False, ipady=10)
-
-        # Comprobar que se ha obtenido palabra online
-        if self.datos.get_nivel() != "Temas":  #if (self.ahorcado.nivel == "Temas"):
-            if self.ahorcado.get_palabra() == "": #if self.ahorcado.palabra == "":
-                msg = "Por problemas de conexión el juego ha cambiado al nivel Temas."
-                # tk.messagebox.showwarning(title="Nivel: Temas", message=msg)
-                dialogo_w = tk.Toplevel(self.master)
-                dialogo_w.resizable(0,0)
-                tk.Label(dialogo_w, text=msg).pack(anchor="center", padx=10, pady=20)
-                boton = ttk.Button(dialogo_w, text='Cerrar',
-                    command=dialogo_w.destroy)
-                boton.bind('<Return>', lambda e: dialogo_w.destroy())
-                boton.focus()
-                boton.pack(side=tk.BOTTOM, padx=20, pady=20)
-                dialogo_w.focus_set()
-                dialogo_w.grab_set()
-                dialogo_w.transient(self.master)
-                self.master.wait_window(dialogo_w)
-                self.cambiar_clase(Game)
-        else:  # Pista para Temas
-            filePista = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
-                "resources/img/pista.png"))
-            canvasPista = tk.Canvas(contenedor, width=32, height=32,
-                background="#121", bd=0, highlightthickness=0)
-            canvasPista.create_image(0, 0, anchor="nw", image=filePista)
-            canvasPista.bind("<Button-1>", self.muestra_pista)
-            canvasPista.pack(side=tk.TOP, anchor="ne", expand=False, pady=4)
-
+        # Pista para Temas
+        canvasPista = tk.Canvas(contenedor, width=32, height=32,
+            background="#121", bd=0, highlightthickness=0)
+        canvasPista.pack(side=tk.TOP, anchor="ne", expand=False, pady=4)
+        if self.datos.nivel == "Temas":
+            try:
+                self.filePista = tk.PhotoImage(file=files["pista"])
+            except:
+                print("ERROR: ARCHIVO NO ENCONTRADO.")
+                self.filePista = tk.PhotoImage()
+            canvasPista.create_image(0, 0, anchor="nw", image=self.filePista)
+            canvasPista.bind("<Button-1>",
+                lambda e: tk.messagebox.showinfo("Pista", self.ahorcado.pista))
         # Horca
         self.canvasHorca = tk.Canvas(contenedor, width=403, height=435,
             background="#121", bd=0, highlightthickness=0)
-        if self.datos.get_nivel() == "Temas":  # if self.ahorcado.nivel == "Temas":
-            self.canvasHorca.pack(side=tk.TOP, anchor="n", expand=False, padx=30)
-        else:
-            self.canvasHorca.pack(side=tk.TOP, anchor="n", expand=False, padx=30, pady=20)
+        self.canvasHorca.pack(side=tk.TOP, anchor="n", expand=False, padx=30)
         self.imgFile = []
         for i in range(1, 8):
             fuente = "resources/img/"+str(i)+".png"
             fileFuente=os.path.join(os.path.dirname(__file__), fuente)
-            self.imgFile.append(tk.PhotoImage(file=fileFuente))
+            try:
+                self.imgFile.append(tk.PhotoImage(file=fileFuente))
+            except:
+                print("ERROR: ARCHIVO NO ENCONTRADO.")
+                self.imgFile.append(tk.PhotoImage())
         self.imgHorca = self.canvasHorca.create_image(0, 0, anchor="nw",
             image=self.imgFile[0])
 
-        # Letra oculta
+    def letra_oculta(self):  # Letra oculta
         self.var = tk.StringVar()
         palabaSecreta = tk.Label(self.master, textvariable = self.var,
             fg="white", bg="#121", font=("Courier", 32, "bold"))
         palabaSecreta.pack(anchor="s", pady=0, ipady=4)
         self.var.set(" ".join(self.ahorcado.secreta))
 
-        # Teclado
+    def teclado(self):  # Teclado
         letrasFila = ["ABCDEFGHI", "JKLMNÑOPQ", "RSTUVWXYZ"]
         self.teclado = tk.Frame(self.master)
         for fila in letrasFila:
             self.keyboard(fila)
         self.teclado.pack(pady=0, anchor="n")
 
-        self.master.mainloop()
-
     def keyboard(self, letrasFila):
         fila = tk.Frame(self.teclado)
         teclas = list(letrasFila)
         for letra in teclas:
-            nameBtn = ttk.Button(fila, text=letra, style='key.TButton',
-                width=3)
-            nameBtn["command"] = (lambda arg1=letra, arg2=nameBtn :
+            nameBtn = ttk.Button(fila, text=letra, style='key.TButton', width=3)
+            nameBtn["command"] = (lambda arg1=letra, arg2=nameBtn:
                 self.letraPulsada(arg1, arg2))
             nameBtn.pack(side=tk.LEFT, ipady=4)
         fila.pack()
 
-    def dibujaError(self):
-        self.canvasHorca.itemconfig(self.imgHorca, image=self.imgFile[self.errores])
-
-    def sonidoEfecto(self, file):
-        if self.datos.sonido == True:
+    def sonido_efecto(self, efecto):
+        if self.datos.sonido:  # == True:  # is True:
             if sys.platform.startswith('linux'):
-                call(["aplay", file])  #os.system("aplay {}".format(file))
+                threading.Thread(target=lambda: call(
+                    ["aplay", files[efecto]])).start()
 
     def letraPulsada(self, let, btn):
-        fileSonidos = {
-            "Error": os.path.join(os.path.dirname(__file__),
-                "resources/media/error.wav"),
-            "Acierto": os.path.join(os.path.dirname(__file__),
-                "resources/media/acierto.wav"),
-            "Gameover": os.path.join(os.path.dirname(__file__),
-                "resources/media/gameover.wav"),
-            "Victoria": os.path.join(os.path.dirname(__file__),
-                "resources/media/victoria.wav")}
         victoria = False
         self.errores = 0
         btn.config(state = tk.DISABLED)
-        check = self.ahorcado.checkLetra(let)
-        if check == False:
+        if let not in self.ahorcado.palabra:
             self.errores = self.ahorcado.sumaError()
-            hiloDibujo = threading.Thread(target=self.dibujaError)
+            threading.Thread(target=lambda: self.canvasHorca.itemconfig(
+                self.imgHorca, image=self.imgFile[self.errores])).start()
             if self.errores < 6:
-                hiloSonido = threading.Thread(target=self.sonidoEfecto,
-                    args=(fileSonidos["Error"],))
-                hiloSonido.start()
-                hiloDibujo.start()
+                self.sonido_efecto("error")
             elif self.errores == 6:
-                hiloSonido = threading.Thread(target=self.sonidoEfecto,
-                    args=(fileSonidos["Gameover"],))
-                hiloSonido.start()
-                hiloDibujo.start()
+                self.sonido_efecto("gameover")
                 self.datos.guardar_marcador(d=1)
-                otra = self.ventanaFin("AHORCADO",
+                otra = tk.messagebox.askokcancel("AHORCADO",
                     "Has perdido. La palabra era {}\n\n¿Otra partida?".format(
                     self.ahorcado.palabra))
         else:
+            check = self.ahorcado.checkLetra(let)
             self.var.set(" ".join(check))
             victoria = self.ahorcado.checkVictoria(check)
-            if victoria == False:
-                hiloSonido = threading.Thread(target=self.sonidoEfecto,
-                    args=(fileSonidos["Acierto"],))
-                hiloSonido.start()
+            if not victoria:  # victoria == False:
+                self.sonido_efecto("acierto")
             else:
-                hiloSonido = threading.Thread(target=self.sonidoEfecto,
-                    args=(fileSonidos["Victoria"],))
-                hiloSonido.start()
+                self.sonido_efecto("victoria")
                 self.datos.guardar_marcador(v=1)
-                otra = self.ventanaFin("VICTORIA",
+                otra = tk.messagebox.askokcancel("VICTORIA",
                     "Felicidades, has ganado\n\n¿Otra partida?")
         if self.errores == 6 or victoria == True:
-            if otra == True:
-                self.cambiar_clase(Game)
-            else:
-                self.cambiar_clase(StartPage)
-
-    def ventanaFin(self, tit, msg):
-        return tk.messagebox.askokcancel(tit, msg)
-
-    def muestra_pista(self, event):
-        tk.messagebox.showinfo("Pista", self.ahorcado.pista)
+            self.cambiar_clase(Game) if otra else self.cambiar_clase(StartPage)
 
 #-------------------------------------------------------------------------
 # clase: Marcador(Base)
 #-------------------------------------------------------------------------
 class Marcador(Base):
     def __init__(self, master):
-
         super().__init__(master)
         self.master = master
 
-        imgM = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
-            "resources/img/marcador.png"))
+        try:
+            imgM = tk.PhotoImage(file=files["marcador"])
+        except:
+            print("ERROR: ARCHIVO NO ENCONTRADO.")
+            imgM = tk.PhotoImage()
         canvasM = tk.Canvas(self.master, width=435, height=48,
             background="#121", bd=0, highlightthickness=0)
         canvasM.create_image(0, 0, anchor="nw", image=imgM)
@@ -418,8 +372,11 @@ class Marcador(Base):
         frameTrofeos = tk.Frame(self.master, bg="#121")
 
         frameV = tk.Frame(frameTrofeos, bg="#121")
-        trofeo = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
-            "resources/img/triunfos.png"))
+        try:
+            trofeo = tk.PhotoImage(file=files["triunfos"])
+        except:
+            print("ERROR: ARCHIVO NO ENCONTRADO.")
+            trofeo = tk.PhotoImage()
         canvasTrofeo = tk.Canvas(frameV, width=64, height=64,
             background="#121", bd=0, highlightthickness=0)
         canvasTrofeo.create_image(0, 0, anchor="nw", image=trofeo)
@@ -432,8 +389,11 @@ class Marcador(Base):
         frameV.pack(side=tk.LEFT)
 
         frameD = tk.Frame(frameTrofeos, bg="#121")
-        soga = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),
-            "resources/img/derrotas.png"))
+        try:
+            soga = tk.PhotoImage(file=files["derrotas"])
+        except:
+            print("ERROR: ARCHIVO NO ENCONTRADO.")
+            soga = tk.PhotoImage()
         canvasSoga = tk.Canvas(frameD, width=64, height=64,
             background="#121", bd=0, highlightthickness=0)
         canvasSoga.create_image(0, 0, anchor="nw", image=soga)
@@ -464,8 +424,20 @@ class Marcador(Base):
         self.tanD.set(self.datos.derrotas)
 
 def main():
+    msg=("""
+        El juego arrancará enseguida,
+        estamos recuperando datos y...
+            preparando la horca.""")
+    Popup(msg, tit="inicio")
+
     root = tk.Tk()
+    winAncho = root.winfo_reqwidth()  # root.winfo_width()
+    winAlto = root.winfo_reqheight()  # root.winfo_height()
+    posX = str(int(root.winfo_screenwidth()/3 - winAncho/2))
+    posY = str(int(root.winfo_screenheight()/4 - winAlto/2))
+    root.geometry("700x700+{}+{}".format(posX, posY))
     StartPage(root)
+    root.mainloop()
 
 if __name__ == "__main__":
     main()

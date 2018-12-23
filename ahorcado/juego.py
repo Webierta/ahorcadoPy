@@ -2,39 +2,30 @@ from ahorcado.datos import Datos
 from ahorcado.palabra import Palabra
 
 #-------------------------------------------------------------------------
-# clase: Juego()
+# clase: Juego(object)
 #-------------------------------------------------------------------------
-class Juego:
+class Juego(object):
 
     def __init__(self):
-        self.pista = ""
-        self.palabra = ""
         self.datos = Datos()
-        self.nivel = self.datos.get_nivel()
         self.buscar_palabra = Palabra()
-        self.fallos = 0
-
-        if self.nivel != "Temas":
+        if self.datos.nivel != "Temas":
             self.buscar_palabra.online_nivel()
-            self.palabra = self.buscar_palabra.get_palabra()
         else:
             self.buscar_palabra.vocabulario()
-            self.palabra = self.buscar_palabra.get_palabra()
-            self.pista = self.buscar_palabra.get_pista()
+        self.palabra = self.buscar_palabra.palabra
+        self.pista = self.buscar_palabra.pista
+        self.lista = list(len(self.palabra) * "_")
+        self.fallos = 0
 
-        # Ocultar palabra
-        if self.palabra != "":
-            self.secreta = len(self.palabra) * "_"
-            self.lista = list(self.secreta)
+    @property
+    def secreta(self):
+        return len(self.palabra) * "_"
 
     def checkLetra(self, letra):
-        if letra not in self.palabra:
-            return False
-        index = 0
-        while index < len(self.palabra):
-            if self.palabra[index] == letra:
+        for index, item in enumerate(self.palabra):
+            if item == letra:
                 self.lista[index] = letra
-            index += 1
         return self.lista
 
     def sumaError(self):
@@ -45,6 +36,3 @@ class Juego:
         if self.palabra == ("".join(listaCheck)):
             return True
         return False
-
-    def get_palabra(self):
-        return self.palabra

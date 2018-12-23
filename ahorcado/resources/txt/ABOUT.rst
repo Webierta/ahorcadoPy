@@ -1,4 +1,4 @@
-Juego del Ahorcado (versión 0.2.1 - 2018)
+Juego del Ahorcado (versión 0.2.2 - 2018)
 =========================================
 
 Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
@@ -61,6 +61,9 @@ DESARROLLO
 ----------
 
 Aplicación con lenguaje de programación python 3 e interfaz gráfica tkinter.
+
+0.2.2
+  Diciembre 2018: Código optimizado y "pythonizado" (estilo más "pythonico").
 
 0.2.1
   Diciembre 2018: Eliminación de dependencias de librerías de terceros.

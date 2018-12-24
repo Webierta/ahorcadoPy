@@ -9,7 +9,6 @@ class Datos(object):
         self.cfg = configparser.ConfigParser()
         self.cfg["Marcador"] = {"victorias": "0", "derrotas": "0"}
         self.cfg["Opciones"] = {"nivel": "Avanzado", "sonido": "True"}
-        self.cfg["Pantalla"] = {"x": "0", "y": "0"}
         try:
             self.cfg.read("config.cfg")
         except:
@@ -35,14 +34,6 @@ class Datos(object):
     def sonido(self):
         return self.cfg.getboolean("Opciones", "sonido")
 
-    @property
-    def posicion_x(self):
-        return self.cfg["Pantalla"].get("x")
-
-    @property
-    def posicion_y(self):
-        return self.cfg["Pantalla"].get("y")
-
     def guardar_marcador(self, v=0, d=0):
         self.cfg.set("Marcador", "victorias", str(self.victorias + v))
         self.cfg.set("Marcador", "derrotas", str(self.derrotas + d))
@@ -59,9 +50,4 @@ class Datos(object):
 
     def guardar_nivel(self, nivel):
         self.cfg.set("Opciones", "nivel", nivel)
-        self.guardar_cfg()
-
-    def guardar_pantalla(self, px, py):  # posiciones
-        self.cfg.set("Pantalla", "x", px)  #posiciones[0]
-        self.cfg.set("Pantalla", "y", py)
         self.guardar_cfg()

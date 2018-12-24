@@ -3,6 +3,7 @@ import os
 from subprocess import call
 import webbrowser
 import threading
+from random import choice
 try:
     import tkinter as tk
     import tkinter.font as font
@@ -12,6 +13,7 @@ try:
 except ImportError:
     print("Se requiere el modulo tkinter. Más información en about.txt")
     sys.exit(1)
+
 from ahorcado.juego import Juego
 from ahorcado.datos import Datos
 from ahorcado.pop import Popup
@@ -106,11 +108,16 @@ class Base(object):
     def info(self, archivoInfo):
         dialogo = tk.Toplevel(self.master)
         dialogo.resizable(0,0)
-        geom = self.master.winfo_geometry()
-        pos = geom.split("+")
-        pX = str(int(pos[1]) - 1)
-        pY = str(int(pos[2]) - 56)
-        dialogo.geometry("600x600+{}+{}".format(pX, pY))
+
+        width = 600
+        height = 600
+        win_width = self.master.winfo_width()
+        win_height = self.master.winfo_height()
+        win_x = self.master.winfo_x()
+        win_y = self.master.winfo_y()
+        x = win_x + ((win_width // 2) - (width // 2))
+        y = win_y + ((win_height // 2) - (height // 2))
+        dialogo.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
         frame_txt = tk.Frame(dialogo)
         text = tk.scrolledtext.ScrolledText(
@@ -136,23 +143,9 @@ class Base(object):
         self.master.wait_window(dialogo)  #self.dialogo.mainloop()
 
     def cambiar_clase(self, clase):
-        geom = self.master.winfo_geometry()
-        pos = geom.split("+")
-        pX = str(int(pos[1]) - 1)
-        pY = str(int(pos[2]) - 56)
-        self.datos.guardar_pantalla(*[pX, pY])
-
-        self.master.destroy()
-
-        ejeX = str(int(self.datos.posicion_x) + 175)
-        ejeY = str(int(self.datos.posicion_y) + 250)
-        if clase == Game:
-            Popup("Generando palabra", ejeX, ejeY, tit="update")
-        newRoot = tk.Tk()
-        posX = self.datos.posicion_x
-        posY = self.datos.posicion_y
-        newRoot.geometry("700x700+{}+{}".format(posX, posY))
-        clase(newRoot)  # newRoot.mainloop()
+        for widget in self.master.winfo_children():
+            widget.destroy()
+        clase(self.master)
 
     def cambiar_nivel(self, menu, clave):
         for key, value in self.modos.items():
@@ -236,17 +229,23 @@ class Game(Base):
                 "Comprueba el estado de tu conexión a internet si este mensaje "
                 "se\nmuestra de nuevo.")
             winErrorNet = tk.Toplevel(self.master)
-            winErrorNet.resizable(0,0)
-            pX = self.datos.posicion_x
-            pY = self.datos.posicion_y
-            winErrorNet.geometry("+{}+{}".format(pX, pY))
+
+            width = 600
+            height = 200
+            win_width = self.master.winfo_width()
+            win_height = self.master.winfo_height()
+            win_x = self.master.winfo_x()
+            win_y = self.master.winfo_y()
+            x = win_x + ((win_width // 2) - (width // 2))
+            y = win_y + ((win_height // 2) - (height // 2))
+            winErrorNet.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
             tk.Label(winErrorNet, text=msg, justify="left").pack(anchor="center",
-                padx=10,pady=20)
+                padx=10,pady=10)
             boton = ttk.Button(winErrorNet, text='Cerrar', command=winErrorNet.destroy)
             boton.bind('<Return>', lambda e: winErrorNet.destroy())
             boton.focus()
-            boton.pack(side=tk.BOTTOM, padx=20, pady=20)
+            boton.pack(side=tk.BOTTOM, padx=20, pady=10)
             winErrorNet.focus_set()
             winErrorNet.grab_set()
             winErrorNet.transient(self.master)
@@ -255,28 +254,28 @@ class Game(Base):
             self.ahorcado = Juego()
 
         self.pista_horca()
-        self.letra_oculta()
-        self.teclado()
+        self.letra_oculta()  # self.teclado()
         self.master.mainloop()
 
+    def muestra_pista(self):
+        try:
+            self.filePista = tk.PhotoImage(file=files["pista"])
+        except:
+            print("ERROR: ARCHIVO NO ENCONTRADO.")
+            self.filePista = tk.PhotoImage()
+        self.canvasPista.create_image(0, 0, anchor="nw", image=self.filePista)
+        self.canvasPista.bind("<Button-1>",
+            lambda e: tk.messagebox.showinfo("Pista", self.ahorcado.pista))
+
     def pista_horca(self):  # Contenedor Pista + Horca
-        contenedor = tk.Frame(self.master, background="#121")
-        contenedor.pack(side=tk.TOP, anchor="n", expand=False, ipady=10)
+        self.contenedor = tk.Frame(self.master, background="#121")
+        self.contenedor.pack(side=tk.TOP, anchor="n", expand=False, ipady=10)
         # Pista para Temas
-        canvasPista = tk.Canvas(contenedor, width=32, height=32,
+        self.canvasPista = tk.Canvas(self.contenedor, width=32, height=32,
             background="#121", bd=0, highlightthickness=0)
-        canvasPista.pack(side=tk.TOP, anchor="ne", expand=False, pady=4)
-        if self.datos.nivel == "Temas":
-            try:
-                self.filePista = tk.PhotoImage(file=files["pista"])
-            except:
-                print("ERROR: ARCHIVO NO ENCONTRADO.")
-                self.filePista = tk.PhotoImage()
-            canvasPista.create_image(0, 0, anchor="nw", image=self.filePista)
-            canvasPista.bind("<Button-1>",
-                lambda e: tk.messagebox.showinfo("Pista", self.ahorcado.pista))
+        self.canvasPista.pack(side=tk.TOP, anchor="ne", expand=False, pady=4)
         # Horca
-        self.canvasHorca = tk.Canvas(contenedor, width=403, height=435,
+        self.canvasHorca = tk.Canvas(self.contenedor, width=403, height=435,
             background="#121", bd=0, highlightthickness=0)
         self.canvasHorca.pack(side=tk.TOP, anchor="n", expand=False, padx=30)
         self.imgFile = []
@@ -291,12 +290,30 @@ class Game(Base):
         self.imgHorca = self.canvasHorca.create_image(0, 0, anchor="nw",
             image=self.imgFile[0])
 
+    def update_label(self, lbl, var):
+        if self.count < 10:
+            letras = ("________________________________"
+                "AAAABCDEEEEFGHIIIIJKLMNÑOOOOPQRSTUUUUVWXYZ")
+            palabra = ""
+            for x in range(7):
+                letra = choice(letras)
+                palabra = palabra + " " + letra
+            var.set(palabra)
+            lbl.after(100, lambda: self.update_label(lbl, var))
+            self.count += 1
+        else:
+            self.var.set(" ".join(self.ahorcado.secreta))
+            if self.datos.nivel == "Temas":
+                self.muestra_pista()
+            self.teclado()
+
     def letra_oculta(self):  # Letra oculta
         self.var = tk.StringVar()
         palabaSecreta = tk.Label(self.master, textvariable = self.var,
             fg="white", bg="#121", font=("Courier", 32, "bold"))
         palabaSecreta.pack(anchor="s", pady=0, ipady=4)
-        self.var.set(" ".join(self.ahorcado.secreta))
+        self.count = 0
+        self.update_label(palabaSecreta, self.var)
 
     def teclado(self):  # Teclado
         letrasFila = ["ABCDEFGHI", "JKLMNÑOPQ", "RSTUVWXYZ"]
@@ -314,12 +331,6 @@ class Game(Base):
                 self.letraPulsada(arg1, arg2))
             nameBtn.pack(side=tk.LEFT, ipady=4)
         fila.pack()
-
-    def sonido_efecto(self, efecto):
-        if self.datos.sonido:  # == True:  # is True:
-            if sys.platform.startswith('linux'):
-                threading.Thread(target=lambda: call(
-                    ["aplay", files[efecto]])).start()
 
     def letraPulsada(self, let, btn):
         victoria = False
@@ -349,7 +360,16 @@ class Game(Base):
                 otra = tk.messagebox.askokcancel("VICTORIA",
                     "Felicidades, has ganado\n\n¿Otra partida?")
         if self.errores == 6 or victoria == True:
-            self.cambiar_clase(Game) if otra else self.cambiar_clase(StartPage)
+            if otra:
+                super().cambiar_clase(Game)
+            else:
+                super().cambiar_clase(StartPage)
+
+    def sonido_efecto(self, efecto):
+        if self.datos.sonido:  # == True:  # is True:
+            if sys.platform.startswith('linux'):
+                threading.Thread(target=lambda: call(
+                    ["aplay", files[efecto]])).start()
 
 #-------------------------------------------------------------------------
 # clase: Marcador(Base)
@@ -424,18 +444,16 @@ class Marcador(Base):
         self.tanD.set(self.datos.derrotas)
 
 def main():
-    msg=("""
-        El juego arrancará enseguida,
-        estamos recuperando datos y...
-            preparando la horca.""")
-    Popup(msg, tit="inicio")
+
+    Popup()
 
     root = tk.Tk()
-    winAncho = root.winfo_reqwidth()  # root.winfo_width()
-    winAlto = root.winfo_reqheight()  # root.winfo_height()
-    posX = str(int(root.winfo_screenwidth()/3 - winAncho/2))
-    posY = str(int(root.winfo_screenheight()/4 - winAlto/2))
-    root.geometry("700x700+{}+{}".format(posX, posY))
+    width = 700
+    height = 700
+    x = (root.winfo_screenwidth() // 2) - (width // 2)
+    y = (root.winfo_screenheight() // 2) - (height // 2)
+    root.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+
     StartPage(root)
     root.mainloop()
 

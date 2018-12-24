@@ -1,4 +1,4 @@
-Juego del Ahorcado (versión 0.2.2 - 2018)
+Juego del Ahorcado (versión 0.2.3 - 2018)
 =========================================
 
 Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
@@ -17,15 +17,7 @@ REQUISITOS DEL SISTEMA
 
 - Python versión 3.x. Requiere que el sistema tenga instalado Python versión 3.x, disponible en python.org para distintas plataformas: Windows, Linux/UNIX, Mac OS X y otras. Python se encuentra instalado por defecto en la mayoría de sistemas GNU/Linux si bien en muchas ocasiones se trata de una versión 2.x. La versión 3.x suele estar incluida en los repositorios de casi todas las distribuciones linux, por lo que su instalación es sencilla. La aplicación solo utiliza componentes de la librería estándar de Python, sin ninguna dependencia de librerías de terceros.
 
-- El paquete 'tkinter' para Python. Actualmente se incluye con todas las distribuciones estándar de Python3.x. Este paquete ofrece la interfaz estándar de Python para el conjunto de herramientas gráficas. En Windows ya se instaló cuando instalaste Python 3. Aunque tkinter es parte de la biblioteca estándar de Python, muchas distribuciones linux lo empaquetan por separado del paquete principal de Python. Para comprobar si está instalado en tu sistema, desde consola: $ python3, y luego >>>import tkinter
-
-  Si aparece un mensaje de error, tkinter no está instalado. En los repositorios de la mayoría de distribuciones linux lo encontrarás con el nombre python3-tk (o simplemente tk).
-
-  Puedes comprobar si has instalado 'tkinter' correctamente ejecutando estos comandos (Alguno de ellos debería abrir una ventana de demostración de la interfaz gráfica de tkinter):
-
-    python3 -m tkinter
-
-    tkinter._test()
+- El paquete 'tkinter' para Python. Actualmente se incluye con todas las distribuciones estándar de Python3.x. Este paquete ofrece la interfaz estándar de Python para el conjunto de herramientas gráficas. En Windows ya se instaló cuando instalaste Python 3. Aunque tkinter es parte de la biblioteca estándar de Python, muchas distribuciones linux lo empaquetan por separado y en los repositorios de la mayoría de distribuciones linux lo encontrarás con nombres como python3-tk o simplemente tk.
 
 - Conexión a internet solo en los niveles «Avanzado» y «Júnior». También es posible jugar sin conexión a internet en el nivel «Temas».
 
@@ -36,7 +28,7 @@ Puedes instalarlo o simplemente ejecutar sin instalar:
 INSTALAR
 ::::::::
 
-Descarga el archivo comprimido e instala con pip (preferiblemente en un entorno virtual). Por ejemplo, ejecuta:
+Descarga el archivo comprimido e instala con pip (preferiblemente en un entorno virtual). Por ejemplo, ejecuta (actualiza con los datos de la última versión):
 
   $ pip install ahorcado-0.1.1.tar.gz
 o
@@ -61,6 +53,9 @@ DESARROLLO
 ----------
 
 Aplicación con lenguaje de programación python 3 e interfaz gráfica tkinter.
+
+0.2.3
+  Diciembre 2018: Interfaz gráfica mejorada
 
 0.2.2
   Diciembre 2018: Código optimizado y "pythonizado" (estilo más "pythonico").

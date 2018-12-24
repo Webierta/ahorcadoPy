@@ -25,29 +25,23 @@ REQUISITOS DEL SISTEMA
 
 - **Python versión 3.x**. Requiere que el sistema tenga instalado Python versión 3.x, disponible en python.org para distintas plataformas: Windows, Linux/UNIX, Mac OS X y otras. Python se encuentra instalado por defecto en la mayoría de sistemas GNU/Linux si bien en muchas ocasiones se trata de una versión 2.x. La versión 3.x suele estar incluida en los repositorios de casi todas las distribuciones linux, por lo que su instalación es sencilla. La aplicación solo utiliza componentes de la librería estándar de Python, sin ninguna dependencia de librerías de terceros.
 
-- **El paquete 'tkinter' para Python**. Actualmente se incluye con todas las distribuciones estándar de Python3.x. Este paquete ofrece la interfaz estándar de Python para el conjunto de herramientas gráficas. En Windows ya se instaló cuando instalaste Python 3. Aunque tkinter es parte de la biblioteca estándar de Python, muchas distribuciones linux lo empaquetan por separado y en los repositorios de la mayoría de distribuciones linux lo encontrarás con nombres como python3-tk o simplemente tk. Para comprobar si está instalado en tu sistema, abrimos el intérprete de python con:
+- **El paquete 'tkinter' para Python**. Actualmente se incluye con todas las distribuciones estándar de Python3.x. Este paquete ofrece la interfaz estándar de Python para el conjunto de herramientas gráficas. En Windows ya se instaló cuando instalaste Python 3. Aunque tkinter es parte de la biblioteca estándar de Python, muchas distribuciones linux lo empaquetan por separado y en los repositorios de la mayoría de distribuciones linux lo encontrarás con nombres como python3-tk o simplemente tk. Para comprobar si está instalado en tu sistema, abrimos el intérprete de python con::
 
-    .. code-block:: bash
-
-        $ python3
+    $ python3
 
   luego lo importamos para que esté disponible con::
 
-        >>> import tkinter
+    >>> import tkinter
 
-  y se consulta la versión instalada con:
+  y se consulta la versión instalada con::
 
-    .. code-block:: bash
-
-        >>> tkinter.Tcl().eval('info patchlevel')
+    >>> tkinter.Tcl().eval('info patchlevel')
 
   y se hace una demostración con::
 
-        >>> tkinter._test()
+    >>> tkinter._test()
 
-  Fuera del intéprete de Python se puede comprobar desde consola con:
-
-  .. code-block:: bash
+  Fuera del intéprete de Python se puede comprobar desde consola con::
 
     $ python3 -m tkinter
 
@@ -61,22 +55,15 @@ Puedes instalarlo o simplemente ejecutar sin instalar:
 INSTALAR
 ::::::::
 
-Descarga el archivo comprimido e instala con pip (preferiblemente en un entorno virtual; para saber cómo crear y usar un entorno virtual puedes visitar `Entornos virtuales con Python <https://python-para-impacientes.blogspot.com/2015/02/entornos-virtuales-con-python.html>`_). Por ejemplo, ejecuta (actualiza con los datos de la última versión):
-
-.. code-block:: bash
+Descarga el archivo comprimido e instala con pip (preferiblemente en un entorno virtual; para saber cómo crear y usar un entorno virtual puedes visitar `Entornos virtuales con Python <https://python-para-impacientes.blogspot.com/2015/02/entornos-virtuales-con-python.html>`_). Por ejemplo, ejecuta (actualiza con los datos de la última versión)::
 
   $ pip install ahorcado-0.1.1.tar.gz
 
-o
-
-.. code-block:: bash
+o::
 
   $ pip3 install ahorcado-0.1.1.tar.gz
 
-
-Y después arranca la aplicación con:
-
-.. code-block:: bash
+Y después arranca la aplicación con::
 
   $ ahorcado
 
@@ -84,15 +71,11 @@ Y después arranca la aplicación con:
 EJECUCIÓN
 :::::::::
 
-Antes asegúrate de cumplir los requisitos. Para ejecutar el juego sin instalarlo, descarga el repositorio comprimido (zip), descomprime y desde consola (en Windows la abres con cmd) desplázate y entra en el directorio principal (ahorcadoPy) y escribe:
-
-.. code-block:: bash
+Antes asegúrate de cumplir los requisitos. Para ejecutar el juego sin instalarlo, descarga el repositorio comprimido (zip), descomprime y desde consola (en Windows la abres con cmd) desplázate y entra en el directorio principal (ahorcadoPy) y escribe::
 
   $ python -m ahorcado.main
 
-o
-
-.. code-block:: bash
+o::
 
   $ python3 -m ahorcado.main
 

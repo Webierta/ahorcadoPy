@@ -31,17 +31,17 @@ REQUISITOS DEL SISTEMA
 
         $ python3
 
-    luego lo importamos para que esté disponible con::
+  luego lo importamos para que esté disponible con::
 
         >>> import tkinter
 
-    y se consulta la versión instalada con:
+  y se consulta la versión instalada con:
 
     .. code-block:: bash
 
         >>> tkinter.Tcl().eval('info patchlevel')
 
-    y se hace una demostración con::
+  y se hace una demostración con::
 
         >>> tkinter._test()
 
@@ -49,7 +49,7 @@ REQUISITOS DEL SISTEMA
 
   .. code-block:: bash
 
-    python3 -m tkinter
+    $ python3 -m tkinter
 
 - **Conexión a internet** solo en los niveles «Avanzado» y «Júnior». También es posible jugar sin conexión a internet en el nivel «Temas».
 

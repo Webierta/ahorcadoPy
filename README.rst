@@ -27,25 +27,23 @@ REQUISITOS DEL SISTEMA
 
 - **El paquete 'tkinter' para Python**. Actualmente se incluye con todas las distribuciones estándar de Python3.x. Este paquete ofrece la interfaz estándar de Python para el conjunto de herramientas gráficas. En Windows ya se instaló cuando instalaste Python 3. Aunque tkinter es parte de la biblioteca estándar de Python, muchas distribuciones linux lo empaquetan por separado y en los repositorios de la mayoría de distribuciones linux lo encontrarás con nombres como python3-tk o simplemente tk. Para comprobar si está instalado en tu sistema, abrimos el intérprete de python con:
 
-  .. code-block:: bash
+    .. code-block:: bash
 
-    $ python3
+        $ python3
 
-luego lo importamos para que esté disponible con:
+    luego lo importamos para que esté disponible con::
 
-  .. code-block:: bash
+        >>> import tkinter
 
-    >>> import tkinter
+    y se consulta la versión instalada con:
 
-y se consulta la versión instalada con:
+    .. code-block:: bash
 
-  .. code-block:: bash
+        >>> tkinter.Tcl().eval('info patchlevel')
 
-    >>> tkinter.Tcl().eval('info patchlevel')
+    y se hace una demostración con::
 
-y se hace una demostración con:
-
-    >>> tkinter._test()
+        >>> tkinter._test()
 
   Fuera del intéprete de Python se puede comprobar desde consola con:
 

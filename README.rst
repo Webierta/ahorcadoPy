@@ -75,6 +75,12 @@ Y después arranca la aplicación con::
 
 Durante la instalación con pip, se instalará automáticamente el paquete opcional *simpleaudio* si no está instalado.
 
+Y ahora puedes crear un lanzador para ejecutar el juego sin necesidad de activar el entorno virtual. Por ejemplo:
+
+.. image:: https://raw.githubusercontent.com/Webierta/ahorcadoPy/master/lanzador.png
+   :alt: Lanzador
+
+
 EJECUCIÓN
 :::::::::
 

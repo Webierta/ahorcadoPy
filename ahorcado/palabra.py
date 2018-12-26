@@ -1,4 +1,3 @@
-import os
 import json
 from random import choice
 from urllib.request import Request, urlopen  # import urllib.request
@@ -7,6 +6,7 @@ import re
 from unicodedata import normalize
 
 from ahorcado.datos import Datos
+from ahorcado.archivos import files
 
 #-------------------------------------------------------------------------
 # clase: Palabra(object)
@@ -69,8 +69,7 @@ class Palabra(object):
             self.online_nivel()
 
     def vocabulario(self):
-        filePalabras = os.path.join(os.path.dirname(__file__),
-            "resources/txt/vocabulario.json")
+        filePalabras = files.get("vocabulario", "ERROR")
         try:
             with open(filePalabras, "r") as archivoPalabras:
                 dataPalabras = json.load(archivoPalabras)

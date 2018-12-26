@@ -5,11 +5,11 @@ El ahorcado
    :alt: El ahorcado
 
 
-Juego del Ahorcado (versión 0.2.3 - 2018)
+Juego del Ahorcado (versión 0.2.4 - 2018)
 
 Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
 
-Copyleft 2018 - Jesús Cuerda - Todos los errores reservados.
+Copyleft 2018 - Jesús Cuerda (Webierta)- Todos los errores reservados.
 
 Web: `https://github.com/Webierta/ahorcadoPy <https://github.com/Webierta/ahorcadoPy>`_
 
@@ -19,11 +19,10 @@ Software libre de código abierto sujeto a la GNU General Public License v.3, di
 
 ----
 
-
 REQUISITOS DEL SISTEMA
 ----------------------
 
-- **Python versión 3.x**. Requiere que el sistema tenga instalado Python versión 3.x, disponible en python.org para distintas plataformas: Windows, Linux/UNIX, Mac OS X y otras. Python se encuentra instalado por defecto en la mayoría de sistemas GNU/Linux si bien en muchas ocasiones se trata de una versión 2.x. La versión 3.x suele estar incluida en los repositorios de casi todas las distribuciones linux, por lo que su instalación es sencilla. La aplicación solo utiliza componentes de la librería estándar de Python, sin ninguna dependencia de librerías de terceros.
+- **Python versión 3.x**. Requiere que el sistema tenga instalado Python versión 3.x, disponible en python.org para distintas plataformas: Windows, Linux/UNIX, Mac OS X y otras. Python se encuentra instalado por defecto en la mayoría de sistemas GNU/Linux si bien en muchas ocasiones se trata de una versión 2.x. La versión 3.x suele estar incluida en los repositorios de casi todas las distribuciones linux, por lo que su instalación es sencilla. La aplicación solo utiliza componentes de la librería estándar de Python, sin ninguna dependencia de librerías de terceros (opcionalmente, para reproducir los efectos de sonido se puede instalar el paquete *simpleaudio*).
 
 - **El paquete 'tkinter' para Python**. Actualmente se incluye con todas las distribuciones estándar de Python3.x. Este paquete ofrece la interfaz estándar de Python para el conjunto de herramientas gráficas. En Windows ya se instaló cuando instalaste Python 3. Aunque tkinter es parte de la biblioteca estándar de Python, muchas distribuciones linux lo empaquetan por separado y en los repositorios de la mayoría de distribuciones linux lo encontrarás con nombres como python3-tk o simplemente tk. Para comprobar si está instalado en tu sistema, abrimos el intérprete de python con::
 
@@ -47,13 +46,20 @@ REQUISITOS DEL SISTEMA
 
 - **Conexión a internet** solo en los niveles «Avanzado» y «Júnior». También es posible jugar sin conexión a internet en el nivel «Temas».
 
+- Opcional: El paquete **simpleaudio** (MIT Licensed) proporciona capacidad de reproducción de audio multiplataforma (macOS, Windows y Linux) sin otras dependencias aunque para algunas variantes de Debian pueden ser necesarios los paquetes de desarrollo de Python 3 (python3-dev) y ALSA(libasound2-dev). Si *simpleaudio* no está instalado, la aplicación desactiva los efectos de sonido pero el juego es completamente funcional sin este paquete. Se puede instalar desde el intérprete de python con::
+
+    pip install simpleaudio
+
+  o::
+
+    pip3 install simpleaudio
 
 INSTALACIÓN / EJECUCIÓN
 -----------------------
-Puedes instalarlo o simplemente ejecutar sin instalar:
+Puedes lanzar la aplicación después de instalar o simplemente ejecutar sin instalar:
 
-INSTALAR
-::::::::
+INSTALAR (recomendado)
+::::::::::::::::::::::
 
 Descarga el archivo comprimido e instala con pip (preferiblemente en un entorno virtual; para saber cómo crear y usar un entorno virtual puedes visitar `Entornos virtuales con Python <https://python-para-impacientes.blogspot.com/2015/02/entornos-virtuales-con-python.html>`_). Por ejemplo, ejecuta (actualiza con los datos de la última versión)::
 
@@ -67,6 +73,7 @@ Y después arranca la aplicación con::
 
   $ ahorcado
 
+Durante la instalación con pip, se instalará automáticamente el paquete opcional *simpleaudio* si no está instalado.
 
 EJECUCIÓN
 :::::::::
@@ -84,6 +91,9 @@ DESARROLLO
 ----------
 
 Aplicación con lenguaje de programación python 3 e interfaz gráfica tkinter.
+
+0.2.4
+  Diciembre 2018: Efectos de sonido multiplataforma
 
 0.2.3
   Diciembre 2018: Interfaz gráfica mejorada
@@ -114,7 +124,7 @@ RECONOCIMIENTOS
 ---------------
 
 - Generador de palabras aleatorias online: `palabrasaleatorias.com <https://www.palabrasaleatorias.com>`_
-- Banco de imágenes y sonidos del Instituto de Tecnologías Educativas. Ministerio de Educación.
+- Banco de imágenes y sonidos del Instituto de Tecnologías Educativas (CC BY-NC-SA 3.0). Ministerio de Educación.
 - Noun Project.
 - Flaticon: Picol, Freepik, Tuts+, Icomoon, Daniel Bruce, Amit Jakhu.
 

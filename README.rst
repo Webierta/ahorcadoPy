@@ -75,11 +75,23 @@ Y después arranca la aplicación con::
 
 Durante la instalación con pip, se instalará automáticamente el paquete opcional *simpleaudio* si no está instalado.
 
-Y ahora puedes crear un lanzador para ejecutar el juego sin necesidad de activar el entorno virtual. Por ejemplo:
+Y ahora puedes crear un lanzador para ejecutar el juego sin necesidad de activar el entorno virtual. Por ejemplo en linux:
 
 .. image:: https://raw.githubusercontent.com/Webierta/ahorcadoPy/master/lanzador.png
    :alt: Lanzador
 
+También puedes crear el lanzador en linux escribiendo en el directorio local de lanzadores (algo así como /home/usuario/.local/share/applications) un archivo de texto llamado **ahorcadoPy.desktop** con un contenido similar a este::
+
+    [Desktop Entry]
+    Version=0.2.4
+    Type=Application
+    Name=AhorcadoPy
+    Comment=Juego del Ahorcado
+    Path=/home/jcv/virtual/lib64/python3.7/site-packages
+    Icon=/home/jcv/virtual/lib64/python3.7/site-packages/ahorcado/resources/img/icon128.png
+    Exec=python -m ahorcado.main
+    Actions=
+    Categories=Game;
 
 EJECUCIÓN
 :::::::::

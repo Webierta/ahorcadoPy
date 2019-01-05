@@ -1,8 +1,8 @@
-Juego del Ahorcado (versión 0.2.4 - 2018)
+Juego del Ahorcado
 
 Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
 
-Copyleft 2018 - Jesús Cuerda (Webierta)- Todos los errores reservados.
+Copyleft 2018-2019 - Jesús Cuerda (Webierta)- Todos los errores reservados.
 
 Web: https://github.com/Webierta/ahorcadoPy
 
@@ -54,6 +54,8 @@ DESARROLLO
 
 Aplicación con lenguaje de programación python 3 e interfaz gráfica tkinter.
 
+0.2.5
+    Enero 2019: Código optimizado  
 0.2.4
     Diciembre 2018: Efectos de sonido multiplataforma
 0.2.3
@@ -82,7 +84,7 @@ RECONOCIMIENTOS
 
 LICENCIA
 
-Copyleft 2018, Jesús Cuerda Villanueva. All Wrongs Reserved
+Copyleft 2018-2019, Jesús Cuerda Villanueva. All Wrongs Reserved
 
 Software libre de código abierto sujeto a la GNU General Public License v.3. EL AHORCADO es software libre distribuido con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA.
 

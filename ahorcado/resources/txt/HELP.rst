@@ -25,6 +25,6 @@ Desde el menú Editar se pueden cambiar algunas opciones del juego.
 
 NIVELES: Avanzado (por defecto), Júnior y Temas. Si se cambia durante una partida, se aplicará en el siguiente juego.
 
-SONIDO: Se pueden activar (por defecto) o desactivar los efectos sonoros de la aplicación (solo en sistemas Linux).
+SONIDO: Se pueden activar (por defecto) o desactivar los efectos sonoros de la aplicación.
 
 Estas opciones (niveles y sonido) quedan grabadas en la aplicación y se aplicarán a las nuevas partidas hasta que sean modificadas.

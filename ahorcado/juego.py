@@ -15,7 +15,7 @@ class Juego(object):
             self.buscar_palabra.vocabulario()
         self.palabra = self.buscar_palabra.palabra
         self.pista = self.buscar_palabra.pista
-        self.lista = list(len(self.palabra) * "_")
+        self.lista = ["_" for letra in self.palabra]  # self.lista = list(len(self.palabra) * "_")
         self.fallos = 0
 
     @property

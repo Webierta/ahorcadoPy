@@ -4,8 +4,10 @@
 # name:         ahorcadoPy (Python 3.x).
 # description:  Aplicación de escritorio que revive el clásico juego de lápiz y
 #               papel 'El Ahorcado'.
-# author:       Jesús Cuerda Villanueva, https://github.com/Webierta/ahorcadoPy
-# version:      0.2.4 Diciembre 2018
-#
+# author:       Jesús Cuerda https://github.com/Webierta
+# help:         README.rst https://github.com/Webierta/ahorcadoPy
+# install:      pip install ahorcado-0.2.5.tar.gz
+# run:          python -m ahorcado.main
 #-------------------------------------------------------------------------
 
+VERSION = "0.2.5"

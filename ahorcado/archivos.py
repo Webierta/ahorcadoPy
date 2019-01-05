@@ -1,5 +1,6 @@
 import sys
 import os
+from ahorcado.dialogo import Dialogo
 
 # key: ruta parcial a archivo
 dicFiles = {
@@ -25,16 +26,18 @@ files = {key: os.path.join(os.path.dirname(__file__), val)
     for key, val in dicFiles.items()}
 
 # Rutas completas a los archivos de imagen de la horca
-filesHorca = [os.path.join(os.path.dirname(__file__),
-    "resources/img/" + str(x) + ".png") for x in range(1, 8)]
+filesHorca = [
+    os.path.join(os.path.dirname(__file__), "resources/img/" + str(x) + ".png")
+    for x in range(1, 8)]
 
 # Comprueba las rutas de todos los archivos
 def comprueba_archivo(archivos):
     for archivo in archivos:
         if not os.path.isfile(archivo):
             print("ERROR: ARCHIVO {} NO ENCONTRADO.".format(archivo))
-            sys.exit(1)
+            return False
+    return True
 
 filesRutas = [archivo for archivo in files.values()]
-comprueba_archivo(filesRutas)
-comprueba_archivo(filesHorca)
+if not comprueba_archivo(filesRutas) or not comprueba_archivo(filesHorca):
+    Dialogo(error="Archivo de aplicación no encontrado.")
